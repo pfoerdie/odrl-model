@@ -1,0 +1,22 @@
+{
+  "name": "odrl-model",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pfoerdie/odrl-model.git"
+  },
+  "keywords": [
+    "odrl"
+  ],
+  "author": "pfoerdie@gmail.com",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/Pfoerdie/odrl-model/issues"
+  },
+  "homepage": "https://github.com/Pfoerdie/odrl-model#readme"
+}
