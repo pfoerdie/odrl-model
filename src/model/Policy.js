@@ -4,6 +4,10 @@ const
 
 class Policy {
 
+    async evaluate(...args) {
+
+    }
+
 }
 
 module.exports = Policy;

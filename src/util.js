@@ -1,5 +1,13 @@
 const
-    _ = exports;
+    _ = exports,
+    uuid = require('uuid');
+
+_.generateUID = function () {
+    return 'urn:uuid:' + uuid.v4();
+};
+
+_.pattern = {};
+_.pattern.IRI = /^[a-z]\w*:\S+$/i
 
 _.is = function (value) {
     return (value ?? null) !== null;
@@ -19,6 +27,10 @@ _.is.string = function (value) {
 
 _.is.string.nonempty = function (value) {
     return _.is.string(value) && value.length > 0;
+};
+
+_.is.IRI = function (value) {
+    return _.is.string(value) && _.pattern.IRI.test(value);
 };
 
 _.is.symbol = function (value) {
@@ -72,6 +84,14 @@ _.assert.object = function (value, checkFn) {
     throw err;
 };
 
+_.assert.instance = function (value, classFn) {
+    if (value instanceof classFn) return;
+    const errMsg = 'not a valid instance';
+    const err = new TypeError(errMsg);
+    Error.captureStackTrace(err, _.assert.instance);
+    throw err;
+};
+
 _.assert.array = function (value, checkFn) {
     if (_.is.array(value) && (!checkFn || value.every(checkFn))) return;
     const errMsg = checkFn ? 'not a valid array' : 'not an array';
@@ -82,7 +102,7 @@ _.assert.array = function (value, checkFn) {
 
 _.lock = function (obj, ...keys) {
     const lock = { writable: false, configurable: false };
-    for (let key of Object.keys(obj)) {
+    for (let key of keys) {
         const writable = !obj.hasOwnProperty(key) || Reflect.getOwnPropertyDescriptor(obj, key).configurable;
         if (writable) Object.defineProperty(obj, key, lock);
     }
@@ -92,3 +112,18 @@ _.lock = function (obj, ...keys) {
 _.lock.all = function (obj) {
     return _.lock(obj, ...Object.keys(obj));
 };
+
+_.lock.deep = function (obj, depth = Infinity) {
+    const lock = { writable: false, configurable: false };
+    for (let [key, child] of Object.entries(obj)) {
+        const writable = !obj.hasOwnProperty(key) || Reflect.getOwnPropertyDescriptor(obj, key).configurable;
+        if (writable) {
+            Object.defineProperty(obj, key, lock);
+            if (child instanceof Object && depth > 0)
+                _.lock.deep(child, depth - 1);
+        }
+    }
+    return _;
+};
+
+_.lock.deep(_);

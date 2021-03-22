@@ -4,6 +4,10 @@ const
 
 class Rule {
 
+    async evaluate(...args) {
+
+    }
+
 }
 
 module.exports = Rule;

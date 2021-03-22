@@ -4,6 +4,10 @@ const
 
 class LogicalConstraint {
 
+    async evaluate(...args) {
+
+    }
+
 }
 
 module.exports = LogicalConstraint;

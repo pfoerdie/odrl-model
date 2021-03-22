@@ -1,3 +1,4 @@
 module.exports = Object.freeze({
-    ...require('./model')
+    ...require('./model'),
+    ...require('./profile')
 });
