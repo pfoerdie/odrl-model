@@ -7,8 +7,8 @@ class LogicalOperator {
     #operator;
 
     constructor(uid, operator) {
-        _.assert.string(uid, _.pattern.IRI);
-        _.assert.function(operator);
+        _.assert(_.is.IRI(uid), 'LogicalOperator#constructor - The uid must be an IRI.');
+        _.assert(_.is.function(operator), 'LogicalOperator#constructor - The operator must be a function.');
         this.uid = uid;
         this.#operator = operator;
         _.lock.all(this);

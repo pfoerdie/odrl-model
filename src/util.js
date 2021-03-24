@@ -53,6 +53,32 @@ _.is.array.nonempty = function (value) {
     return _.is.array(value) && value.length > 0;
 };
 
+_.validate = function (value, schema) {
+    if (_.is.array(schema))
+        return schema.some(entry => _.validate(value, entry));
+
+    return schema
+        && (!schema.type || (
+            typeof value === type
+        ))
+        && (!schema.class || (
+            value instanceof schema.class
+        ))
+        && (!schema.member || (
+            _.is.array(value) && value.every(
+                (entry) => _.validate(entry, schema.member)
+            )
+        ))
+        && (!schema.prop || (
+            _.is.object(value) && Object.entries(schema.prop).every(
+                ([key, entry]) => _.validate(value[key], entry)
+            )
+        ))
+        && (!schema.pattern || (
+            _.is.string(value) && schema.pattern.test(value)
+        ));
+};
+
 _.assert = function (value, errMsg = 'undefined', errType = Error) {
     if (value) return;
     const err = new errType(errMsg);

@@ -11,9 +11,9 @@ class Constraint {
         rightOperand = null,
         rightOperandReference = null
     }) {
-        _.assert.string(uid, _.pattern.IRI);
-        _.assert.instance(operator, model.Operator);
-        _.assert.instance(leftOperand, model.LeftOperand);
+        _.assert(_.is.IRI(uid), 'Constraint#constructor - The uid must be an IRI.');
+        _.assert(operator instanceof model.Operator, 'Constraint#constructor - The operator must be an Operator.');
+        _.assert(leftOperand instanceof model.LeftOperand, 'Constraint#constructor - The leftOperand must be a LeftOperand.');
         _.assert(_.is.object(rightOperand) || _.is.string(rightOperandReference) || _.is.array(rightOperandReference));
         this.uid = uid;
         this.operator = operator;
