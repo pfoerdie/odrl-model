@@ -1,3 +1,6 @@
+exports.Literal = require('./Literal');
+exports.Resource = require('./Resource');
+exports.Collection = require('./Collection');
 exports.Policy = require('./Policy');
 exports.Rule = require('./Rule');
 exports.Action = require('./Action');
