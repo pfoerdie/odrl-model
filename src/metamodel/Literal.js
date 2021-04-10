@@ -2,13 +2,10 @@ const
     _ = require('../util'),
     model = require('.');
 
-module.exports = class Literal {
+class Literal {
 
-    /** @type {model.Literal['value']} */
     #value = '';
-    /** @type {model.Literal['language']} */
     #language = '';
-    /** @type {model.Literal['datatype']} */
     #datatype = _.XSD.string;
 
     constructor(param) {
@@ -37,7 +34,6 @@ module.exports = class Literal {
         } else {
             this.value = value;
         }
-        // TODO test
     }
 
     get value() { return this.#value; }
@@ -61,7 +57,6 @@ module.exports = class Literal {
                 this.#value = _.parse(value).toString();
                 break;
         }
-        // TODO test
     }
 
     get language() { return this.#language; }
@@ -70,7 +65,6 @@ module.exports = class Literal {
         _.assert.equal(this.#datatype, _.RDF.langString);
         _.assert.string(language, _.pattern.Language);
         this.#language = language;
-        // TODO test
     }
 
     get datatype() { return this.#datatype; }
@@ -84,7 +78,6 @@ module.exports = class Literal {
             this.#datatype = datatype;
             this.#language = '';
         }
-        // TODO test
     }
 
     toJSON() {
@@ -95,7 +88,6 @@ module.exports = class Literal {
             '@type': this.#datatype,
             '@value': this.#value
         };
-        // TODO test
     }
 
     valueOf() {
@@ -109,9 +101,8 @@ module.exports = class Literal {
             default:
                 return this.#value;
         }
-        // TODO test
     }
 
-    [Symbol.toStringTag]() { return 'Literal'; }
+}
 
-};
+module.exports = Literal;

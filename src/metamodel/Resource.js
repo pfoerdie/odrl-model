@@ -2,7 +2,7 @@ const
     _ = require('../util'),
     model = require('.');
 
-module.exports = class Resource {
+class Resource {
 
     #uid = '';
     #type = null;
@@ -26,6 +26,6 @@ module.exports = class Resource {
         return { '@id': this.#uid };
     }
 
-    [Symbol.toStringTag]() { return 'Resource<' + this.#uid + '>'; }
+}
 
-};
+module.exports = Resource;
