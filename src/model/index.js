@@ -1,6 +1,3 @@
-exports.Literal = require('./Literal');
-exports.Resource = require('./Resource');
-exports.Collection = require('./Collection');
 exports.Policy = require('./Policy');
 exports.Rule = require('./Rule');
 exports.Action = require('./Action');
@@ -9,4 +6,3 @@ exports.Operator = require('./Operator');
 exports.LeftOperand = require('./LeftOperand');
 exports.LogicalConstraint = require('./LogicalConstraint');
 exports.LogicalOperator = require('./LogicalOperator');
-module.exports = Object.freeze({ ...exports });
