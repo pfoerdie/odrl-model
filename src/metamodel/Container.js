@@ -1,7 +1,7 @@
 const
     _ = require('../util'),
     model = require('.'),
-    /** @type {model.ContainerTypes} */
+    /** @implements {model.ContainerTypes} */
     ContainerTypes = {};
 
 ContainerTypes['@graph'] = class GraphContainer {
@@ -350,7 +350,7 @@ module.exports = class Container {
     /** @type {model.ContainerAdapter['constructor']} */
     #type = null;
     /** @type {model.ContainerAdapter} */
-    #container = null;
+    #adapter = null;
 
     /**
      * @param {model.ContainerJSON} param 
@@ -363,7 +363,7 @@ module.exports = class Container {
         _.assert(types.length === 1, 'Container#constructor - A unique container type is not defined.');
         this.#tag = types[0];
         this.#type = ContainerTypes[this.#tag];
-        this.#container = param instanceof this.#type ? param : new this.#type(param[this.#tag]);
+        this.#adapter = param instanceof this.#type ? param : new this.#type(param[this.#tag]);
     }
 
     /**
@@ -377,7 +377,7 @@ module.exports = class Container {
      * @returns {model.ContainerJSON}
      */
     toJSON() {
-        return { [this.#tag]: this.#container.toJSON() };
+        return { [this.#tag]: this.#adapter.toJSON() };
     }
 
     /** @returns {Iterator<model.EntryValue>} */
@@ -389,28 +389,28 @@ module.exports = class Container {
      * @type {number}
      */
     get size() {
-        return this.#container.size;
+        return this.#adapter.size;
     }
 
     /**
      * @returns {Interator<model.EntryKey>}
      */
     keys() {
-        return this.#container.keys();
+        return this.#adapter.keys();
     }
 
     /**
      * @returns {Interator<model.EntryValue>}
      */
     values() {
-        return this.#container.values();
+        return this.#adapter.values();
     }
 
     /**
      * @returns {Interator<[model.EntryKey, model.EntryValue]>}
      */
     entries() {
-        return this.#container.entries();
+        return this.#adapter.entries();
     }
 
     /**
@@ -418,7 +418,7 @@ module.exports = class Container {
      * @returns {boolean}
      */
     has(key) {
-        return this.#container.has(key);
+        return this.#adapter.has(key);
     }
 
     /**
@@ -426,7 +426,7 @@ module.exports = class Container {
      * @returns {model.EntryValue}
      */
     get(key) {
-        return this.#container.get(key);
+        return this.#adapter.get(key);
     }
 
 
@@ -436,7 +436,7 @@ module.exports = class Container {
      */
     add(value) {
         if (Object.isFrozen(this)) return;
-        return this.#container.add(key, value);
+        return this.#adapter.add(key, value);
     }
 
     /**
@@ -446,7 +446,7 @@ module.exports = class Container {
      */
     set(key, value) {
         if (Object.isFrozen(this)) return;
-        return this.#container.set(key, value);
+        return this.#adapter.set(key, value);
     }
 
     /**
@@ -455,7 +455,7 @@ module.exports = class Container {
      */
     delete(key) {
         if (Object.isFrozen(this)) return false;
-        return this.#container.delete(key);
+        return this.#adapter.delete(key);
     }
 
     /**
@@ -463,7 +463,7 @@ module.exports = class Container {
      */
     clear() {
         if (Object.isFrozen(this)) return false;
-        this.#container.clear();
+        this.#adapter.clear();
         return true;
     }
 

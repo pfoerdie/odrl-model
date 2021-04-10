@@ -1,15 +1,22 @@
-type Object<KeyType, ValueType> = { [key: KeyType]: ValueType };
+declare type Object<ValueType> = { [key: string]: ValueType }
 
-type IRI = string;
+declare type IRI = string
+declare type Language = string
+declare type Datatype = string
+declare enum ContainerType { '@language', '@list', '@set', '@graph', '@index', '@id', '@type' }
+declare type EntryValue = Literal | Resource
+declare type EntryKey = number | string | EntryValue
+declare type ResourceJSON = Object<IRI | Resource | Literal | Container>
+declare type LiteralJSON = Object<string>
+declare type EntriesJSON = Array<EntryValue> | Object<EntryValue>
+declare type ContainerJSON = Object<EntriesJSON>
+declare type Iteratee<ReturnType = void> = (value: EntryValue, key: EntryKey) => ReturnType
 
 export class Resource {
     // TODO constructor
     uid: IRI;
     toJSON(): { '@id': IRI };
-};
-
-type Language = string;
-type Datatype = string;
+}
 
 export class Literal {
     // TODO constructor
@@ -17,17 +24,10 @@ export class Literal {
     language: Language;
     datatype: Datatype;
     toJSON(): { '@value': string, '@language'?: Language, '@type'?: Datatype };
-};
+}
 
-enum ContainerType { '@language', '@list', '@set', '@graph', '@index', '@id', '@type' };
-type EntryValue = Literal | Resource;
-type EntryKey = number | string | EntryValue;
-type EntriesJSON = Array<EntryValue> | Object<EntryKey, EntryValue>;
-type ContainerJSON = Object<ContainerType, EntriesJSON>;
-type Iteratee<ReturnType = void> = (value: EntryValue, key: EntryKey) => ReturnType;
-
-type ContainerAdapter<KeyType = EntryKey, ValueType = EntryValue> = {
-    constructor(arg: EntriesJSON): this;
+declare class ContainerAdapter<KeyType = EntryKey, ValueType = EntryValue> {
+    constructor(arg: EntriesJSON);
     toJSON(): EntriesJSON;
     size: number;
     keys(): Iterator<KeyType>;
@@ -39,27 +39,27 @@ type ContainerAdapter<KeyType = EntryKey, ValueType = EntryValue> = {
     set(key: KeyType, value: ValueType): KeyType | undefined;
     delete(key: KeyType): boolean;
     clear(): void;
-};
+}
 
-interface ContainerTypes {
-    /** NOTE: #not-implemented */
-    '@language': ContainerAdapter<string, Literal>;
+declare interface ContainerTypes {
+    // /** NOTE: #not-implemented */
+    // '@language': ContainerAdapter<string, Literal>;
     /** NOTE: #not-implemented */
     '@list': ContainerAdapter<number, Resource | Literal>;
     /** NOTE: #implemented-not-tested */
     '@set': ContainerAdapter<Resource | Literal, Resource | Literal>;
     /** NOTE: #implemented-not-tested */
-    '@graph': ContainerAdapter<Resource.uid, Resource>;
-    /** NOTE: #implemented-not-tested */
-    '@index': ContainerAdapter<string, Resource | Literal>;
+    '@graph': ContainerAdapter<Resource['uid'], Resource>;
+    // /** NOTE: #implemented-not-tested */
+    // '@index': ContainerAdapter<string, Resource | Literal>;
+    // /** NOTE: #not-implemented */
+    // '@id': ContainerAdapter<number | string, Resource>;
     /** NOTE: #not-implemented */
-    '@id': ContainerAdapter<number | string, Resource>;
-    /** NOTE: #not-implemented */
-    '@type': ContainerAdapter<string, Resouce | Literal>;
-};
+    '@type': ContainerAdapter<string, Resource | Literal>;
+}
 
 export class Container {
-    constructor(arg: ContainerJSON | ContainerAdapter): this;
+    constructor(arg: ContainerJSON | ContainerAdapter);
     type: '@language' | '@list' | '@set' | '@graph' | '@index' | '@id' | '@type';
     toJSON(): ContainerJSON;
     size: number;
@@ -79,4 +79,4 @@ export class Container {
     map(iteratee: Iteratee<EntryValue>): Container;
     every(iteratee: Iteratee<boolean>): boolean;
     some(iteratee: Iteratee<boolean>): boolean;
-};
+}
