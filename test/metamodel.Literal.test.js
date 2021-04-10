@@ -1,19 +1,19 @@
 const
-    { Literal } = require('../src/metamodel');
+    metamodel = require('../src/metamodel');
 
-describe('metamodel.Literal.test', function () {
+describe('metamodel.Literal', function () {
 
     test('should instanciate with a string', function () {
-        const literal = new Literal('Hello World!');
+        const literal = new metamodel.Literal('Hello World!');
         expect(literal.value).toBe('Hello World!');
     });
 
     test('should serialization into json-ld', function () {
-        expect(JSON.parse(JSON.stringify(new Literal('Test'))))
+        expect(JSON.parse(JSON.stringify(new metamodel.Literal('Test'))))
             .toMatchObject({
                 '@value': 'Test'
             });
-        expect(JSON.parse(JSON.stringify(new Literal(0))))
+        expect(JSON.parse(JSON.stringify(new metamodel.Literal(0))))
             .toMatchObject({
                 '@value': '0'
             });
