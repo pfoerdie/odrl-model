@@ -1,8 +1,15 @@
 const
     _ = require('../util'),
-    model = require('.');
+    model = require('.'),
+    KeyType = _.create.classType(_.is.string.IRI),
+    ValueType = _.create.classType(
+        value => value instanceof model.Resource
+    );
 
 class GraphContainer extends model.Container {
+
+    static get KeyType() { return KeyType; }
+    static get ValueType() { return ValueType; }
 
     #graph = new Map();
 

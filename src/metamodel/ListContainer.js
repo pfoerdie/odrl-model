@@ -1,8 +1,15 @@
 const
     _ = require('../util'),
-    model = require('.');
+    model = require('.'),
+    KeyType = _.create.classType(_.is.number),
+    ValueType = _.create.classType(
+        value => value instanceof model.Resource || value instanceof model.Literal
+    );
 
 class ListContainer extends model.Container {
+
+    static get KeyType() { return KeyType; }
+    static get ValueType() { return ValueType; }
 
     #list = [];
 

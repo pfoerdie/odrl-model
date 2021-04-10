@@ -4,6 +4,8 @@ const
 
 class TypeContainer extends model.IdContainer {
 
+    toJSON() { return Array.from(this.values()).map(value => value.uid); }
+
 }
 
 module.exports = TypeContainer;

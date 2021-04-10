@@ -1,8 +1,17 @@
 const
     _ = require('../util'),
-    model = require('.');
+    model = require('.'),
+    ValueType = _.create.classType(
+        value => value instanceof model.Resource || value instanceof model.Literal
+    ),
+    KeyType = _.create.classType(
+        value => _.is.number(value) || _.is.string(value) || value instanceof ValueType
+    );
 
 class Container {
+
+    static get KeyType() { return KeyType; }
+    static get ValueType() { return ValueType; }
 
     #type = null;
 
@@ -11,20 +20,46 @@ class Container {
         this.#type = new.target;
     }
 
-    get size() { }
-    toJSON() { }
+    get size() { return 0; }
+    toJSON() { return null; }
 
-    keys() { }
-    values() { }
-    entries() { }
+    keys() { return null; }
+    values() { return null; }
+    entries() { return null; }
 
-    has(key) { }
-    get(key) { }
+    has(key) {
+        _.assert.instance(key, this.type.KeyType);
+        return false;
+    }
 
-    add(value) { }
-    set(key, value) { }
-    delete(key) { }
-    clear() { }
+    get(key) {
+        _.assert.instance(key, this.type.KeyType);
+        return null;
+    }
+
+    add(value) {
+        _.assert(!this.locked, 'locked');
+        _.assert.instance(value, this.type.ValueType);
+        return null;
+    }
+
+    set(key, value) {
+        _.assert(!this.locked, 'locked');
+        _.assert.instance(key, this.type.KeyType);
+        _.assert.instance(value, this.type.ValueType);
+        return null;
+    }
+
+    delete(key) {
+        _.assert(!this.locked, 'locked');
+        _.assert.instance(key, this.type.KeyType);
+        return false;
+    }
+
+    clear() {
+        _.assert(!this.locked, 'locked');
+        return false;
+    }
 
     get type() { return this.#type; }
     get locked() { return Object.isFrozen(this); }

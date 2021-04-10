@@ -1,8 +1,14 @@
 const
     _ = require('../util'),
-    model = require('.');
+    model = require('.'),
+    ValueType = _.create.classType(
+        value => value instanceof model.Resource || value instanceof model.Literal
+    );
 
 class SetContainer extends model.Container {
+
+    static get KeyType() { return ValueType; }
+    static get ValueType() { return ValueType; }
 
     #set = new Set();
 

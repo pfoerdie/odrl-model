@@ -249,6 +249,18 @@ _.assert.array = function (value, checkFn) {
     throw err;
 };
 
+_.create = function (obj = null) {
+    return Object.create(obj);
+};
+
+_.create.classType = function (validator) {
+    const ClassType = _.create();
+    Object.defineProperty(ClassType, Symbol.hasInstance, {
+        value: validator
+    });
+    return ClassType;
+};
+
 _.lock = function (obj, ...keys) {
     const lock = { writable: false, configurable: false };
     for (let key of keys) {
