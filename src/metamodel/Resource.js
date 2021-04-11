@@ -13,8 +13,9 @@ class Resource {
             this.#uid = param;
         } else {
             _.assert.object(param);
-            _.assert.string(param['@id'], _.pattern.IRI);
-            this.#uid = param['@id'];
+            const uid = param['@id'] || param.uid || param.id;
+            _.assert.string(uid, _.pattern.IRI);
+            this.#uid = uid;
         }
         this.#type = new.target;
     }
@@ -23,7 +24,7 @@ class Resource {
     get type() { return this.#type; }
 
     toJSON() {
-        return { '@id': this.#uid };
+        return Object.assign({ '@id': this.#uid }, this);
     }
 
 }

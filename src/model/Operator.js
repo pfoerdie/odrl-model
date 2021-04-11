@@ -3,14 +3,13 @@ const
     metamodel = require('../metamodel'),
     model = require('.');
 
-class Operator {
+class Operator extends metamodel.Resource {
 
     #operator;
 
-    constructor(uid, operator) {
-        _.assert(_.is.IRI(uid), 'Operator#constructor - The uid must be an IRI.');
-        _.assert(_.is.function(operator), 'Operator#constructor - The operator must be a function.');
-        this.uid = uid;
+    constructor(param, operator) {
+        _.assert.function(operator);
+        super(param);
         this.#operator = operator;
         _.lock.all(this);
     }
@@ -19,10 +18,6 @@ class Operator {
         _.assert.object(leftOperand);
         _.assert.object(rightOperand);
         return await this.#operator.call(null, leftOperand, rightOperand);
-    }
-
-    toJSON() {
-        return this.uid;
     }
 
 }

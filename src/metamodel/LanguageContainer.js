@@ -1,29 +1,12 @@
 const
     _ = require('../util'),
-    model = require('.'),
-    ValueType = _.create.classType(
-        value => value instanceof model.Literal
-    );
+    model = require('.');
 
 class LanguageContainer extends model.IndexContainer {
 
-    static get ValueType() { return ValueType; }
-
-    add(value) {
-        if (this.locked) return;
-        _.assert.instance(value, model.Literal);
-        _.assert.equal(value.datatype, _.RDF.langString);
-        if (this.has(value.language)) return false;
-        return super.set(value.language, value);
-    }
-
-    set(key, value) {
-        if (this.locked) return;
-        _.assert.instance(value, model.Literal);
-        _.assert.equal(value.datatype, _.RDF.langString);
-        _.assert.equal(key, value.language);
-        return super.set(value.language, value);
-    }
+    static validKey(key) { return _.is.string.Language(key); }
+    static validValue(value) { return value instanceof model.Literal && value.datatype === _.RDF.langString; }
+    static validEntry(key, value) { return this.validKey(key) && this.validValue(value) && key === value.language; }
 
 }
 

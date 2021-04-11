@@ -1,15 +1,11 @@
 const
     _ = require('../util'),
-    model = require('.'),
-    KeyType = _.create.classType(_.is.number),
-    ValueType = _.create.classType(
-        value => value instanceof model.Resource || value instanceof model.Literal
-    );
+    model = require('.');
 
 class ListContainer extends model.Container {
 
-    static get KeyType() { return KeyType; }
-    static get ValueType() { return ValueType; }
+    static validKey(key) { return _.is.number(key); }
+    static validValue(value) { return value instanceof model.Resource || value instanceof model.Literal; }
 
     #list = [];
 
@@ -18,8 +14,7 @@ class ListContainer extends model.Container {
         if (list) {
             _.assert.array(list);
             for (let value of list) {
-                _.assert.instance(value, model.Resource, model.Literal);
-                this.#list.push(value);
+                this.add(value);
             }
         }
     }
@@ -31,21 +26,25 @@ class ListContainer extends model.Container {
     values() { this.#list.values(); }
     entries() { this.#list.entries(); }
 
-    has(key) { return _.is.number.integer(key) && key >= 0 && key < this.size; }
-    get(key) { return (this.has(key) || undefined) && this.#list[key]; }
+    has(key) {
+        super.has(key);
+        return Number.isInteger(key) && key >= 0 && key < this.size;
+    }
+
+    get(key) {
+        super.get(key);
+        return this.#list[key];
+    }
 
     add(value) {
-        if (this.locked) return;
-        _.assert.instance(value, model.Resource, model.Literal);
+        super.add(value);
         this.#list.push(value);
         return this.size - 1;
     }
 
     set(key, value) {
-        if (this.locked) return;
-        _.assert.instance(value, model.Resource, model.Literal);
-        _.assert.number(key, -1, this.size);
-        if (this.has(key)) {
+        super.set(key, value);
+        if (Number.isInteger(key) && key >= 0 && key < this.size) {
             this.#list[key] = value;
         } else if (value < 0) {
             this.#list.unshift(value);
@@ -61,16 +60,16 @@ class ListContainer extends model.Container {
     }
 
     delete(key) {
-        if (this.locked) return false;
-        if (!this.has(key)) return false;
+        super.delete(key);
+        if (!(Number.isInteger(key) && key >= 0 && key < this.size))
+            return false;
         this.#list.splice(key, 1);
         return true;
     }
 
     clear() {
-        if (this.locked) return false;
+        super.clear();
         this.#list = [];
-        return true;
     }
 
 }

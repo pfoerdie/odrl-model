@@ -1,15 +1,12 @@
 const
     _ = require('../util'),
-    model = require('.'),
-    KeyType = _.create.classType(_.is.string),
-    ValueType = _.create.classType(
-        value => value instanceof model.Resource || value instanceof model.Literal
-    );
+    model = require('.');
+const { validValue } = require('./Container');
 
 class IndexContainer extends model.Container {
 
-    static get KeyType() { return KeyType; }
-    static get ValueType() { return ValueType; }
+    static validKey(key) { return _.is.string(key); }
+    static validValue(value) { return value instanceof model.Resource || value instanceof model.Literal; }
 
     #map = new Map();
 
@@ -18,9 +15,7 @@ class IndexContainer extends model.Container {
         if (map) {
             _.assert.object(map);
             for (let [key, value] of Object.entries(map)) {
-                _.assert.instance(value, model.Resource, model.Literal);
-                _.assert.string(key);
-                this.#map.set(key, value);
+                this.set(key, value);
             }
         }
     }
@@ -32,31 +27,41 @@ class IndexContainer extends model.Container {
     values() { return this.#map.values(); }
     entries() { return this.#map.entries(); }
 
-    has(key) { return _.is.string(key) && this.#map.has(key); }
-    get(key) { return (_.is.string(key) || undefined) && this.#map.get(key); }
+    has(key) {
+        super.has(key);
+        return this.#map.has(key);
+    }
+
+    get(key) {
+        super.get(key);
+        return this.#map.get(key);
+    }
 
     add(value) {
-        if (this.locked) return;
-        return this.set(_.generateUID(), value);
+        super.add(value);
+        if (value instanceof model.Resource) {
+            const key = value.uid;
+            return this.set(key, value);
+        } else if (value instanceof model.Literal) {
+            const key = value.language || value.datatype;
+            return this.set(key, value);
+        }
     }
 
     set(key, value) {
-        if (this.locked) return;
-        _.assert.instance(value, model.Resource, model.Literal);
-        _.assert.string(key);
+        super.set(key, value);
         this.#map.set(key, value);
         return key;
     }
 
     delete(key) {
-        if (this.locked) return false;
-        return _.is.string(key) && this.#map.delete(key);
+        super.delete(key);
+        return this.#map.delete(key);
     }
 
     clear() {
-        if (this.locked) return false;
+        super.clear();
         this.#map.clear();
-        return true;
     }
 
 }

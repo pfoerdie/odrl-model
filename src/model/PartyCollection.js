@@ -7,19 +7,14 @@ class ConstraintSet extends metamodel.GraphContainer {
     static validValue(value) { return value instanceof model.Constraint || value instanceof model.LogicalConstraint; }
 }
 
-class Rule extends metamodel.Resource {
+class PartyCollection extends model.Party {
 
     constructor(param) {
-        _.assert.object(param);
-        super(param['@id'] || _.generateUID());
-        this.constraint = new ConstraintSet(param.constraint);
+        super(param);
+        this.refinement = new ConstraintSet(this.refinement);
         _.lock.all(this);
-    }
-
-    async evaluate(...args) {
-
     }
 
 }
 
-module.exports = Rule;
+module.exports = PartyCollection;

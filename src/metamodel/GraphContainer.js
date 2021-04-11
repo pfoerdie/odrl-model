@@ -1,15 +1,12 @@
 const
     _ = require('../util'),
-    model = require('.'),
-    KeyType = _.create.classType(_.is.string.IRI),
-    ValueType = _.create.classType(
-        value => value instanceof model.Resource
-    );
+    model = require('.');
 
 class GraphContainer extends model.Container {
 
-    static get KeyType() { return KeyType; }
-    static get ValueType() { return ValueType; }
+    static validKey(key) { return _.is.string.IRI(key); }
+    static validValue(value) { return value instanceof model.Resource; }
+    static validEntry(key, value) { return this.validKey(key) && this.validValue(value) && key === value.uid; }
 
     #graph = new Map();
 
@@ -18,9 +15,7 @@ class GraphContainer extends model.Container {
         if (graph) {
             _.assert.array(graph);
             for (let value of graph) {
-                _.assert.instance(value, model.Resource);
-                _.assert(!this.#graph.has(value.uid));
-                this.#graph.set(value.uid, value);
+                this.add(value);
             }
         }
     }
@@ -32,34 +27,38 @@ class GraphContainer extends model.Container {
     values() { return this.#graph.values(); }
     entries() { return this.#graph.entries(); }
 
-    has(key) { return _.is.string(key) && this.#graph.has(key); }
-    get(key) { return (_.is.string(key) || undefined) && this.#graph.get(key); }
+    has(key) {
+        super.has(key);
+        return this.#graph.has(key);
+    }
+
+    get(key) {
+        super.get(key);
+        return this.#graph.get(key);
+    }
 
     add(value) {
-        if (this.locked) return;
-        _.assert.instance(value, model.Resource);
+        super.add(value);
         if (this.#graph.has(value.uid)) return;
         this.#graph.set(value.uid, value);
         return value.uid;
     }
 
     set(key, value) {
-        if (this.locked) return;
-        _.assert.instance(value, model.Resource);
-        _.assert.equal(key, value.uid);
+        super.set(key, value);
         this.#graph.set(value.uid, value);
         return value.uid;
     }
 
     delete(key) {
+        super.delete(key);
         if (this.locked) return false;
-        return _.is.string(key) && this.#graph.delete(key);
+        return this.#graph.delete(key);
     }
 
     clear() {
-        if (this.locked) return false;
+        super.clear();
         this.#graph.clear();
-        return true;
     }
 
 }

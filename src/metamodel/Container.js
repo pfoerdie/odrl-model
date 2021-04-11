@@ -1,17 +1,12 @@
 const
     _ = require('../util'),
-    model = require('.'),
-    ValueType = _.create.classType(
-        value => value instanceof model.Resource || value instanceof model.Literal
-    ),
-    KeyType = _.create.classType(
-        value => _.is.number(value) || _.is.string(value) || value instanceof ValueType
-    );
+    model = require('.');
 
 class Container {
 
-    static get KeyType() { return KeyType; }
-    static get ValueType() { return ValueType; }
+    static validKey(key) { return _.is.number(key) || _.is.string(key) || this.validValue(key); }
+    static validValue(value) { return value instanceof model.Resource || value instanceof model.Literal; }
+    static validEntry(key, value) { return this.validKey(key) && this.validValue(value); }
 
     #type = null;
 
@@ -28,37 +23,36 @@ class Container {
     entries() { return null; }
 
     has(key) {
-        _.assert.instance(key, this.type.KeyType);
+        _.assert(this.type.validKey(key), 'invalid key');
         return false;
     }
 
     get(key) {
-        _.assert.instance(key, this.type.KeyType);
+        _.assert(this.type.validKey(key), 'invalid key');
         return null;
     }
 
     add(value) {
         _.assert(!this.locked, 'locked');
-        _.assert.instance(value, this.type.ValueType);
+        _.assert(this.type.validValue(value), 'invalid value');
         return null;
     }
 
     set(key, value) {
         _.assert(!this.locked, 'locked');
-        _.assert.instance(key, this.type.KeyType);
-        _.assert.instance(value, this.type.ValueType);
+        _.assert(this.type.validEntry(key, value), 'invalid key/value');
         return null;
     }
 
     delete(key) {
         _.assert(!this.locked, 'locked');
-        _.assert.instance(key, this.type.KeyType);
+        _.assert(this.type.validKey(key), 'invalid key');
         return false;
     }
 
     clear() {
         _.assert(!this.locked, 'locked');
-        return false;
+        return;
     }
 
     get type() { return this.#type; }

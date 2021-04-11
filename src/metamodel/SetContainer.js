@@ -1,14 +1,12 @@
 const
     _ = require('../util'),
-    model = require('.'),
-    ValueType = _.create.classType(
-        value => value instanceof model.Resource || value instanceof model.Literal
-    );
+    model = require('.');
 
 class SetContainer extends model.Container {
 
-    static get KeyType() { return ValueType; }
-    static get ValueType() { return ValueType; }
+    static validKey(key) { return this.validValue(key); }
+    static validValue(value) { return value instanceof model.Resource || value instanceof model.Literal; }
+    static validEntry(key, value) { return key === value && this.validValue(value); }
 
     #set = new Set();
 
@@ -17,8 +15,7 @@ class SetContainer extends model.Container {
         if (set) {
             _.assert.array(set);
             for (let value of set) {
-                _.assert.instance(value, model.Resource, model.Literal);
-                this.#set.add(value);
+                this.add(value);
             }
         }
     }
@@ -30,33 +27,36 @@ class SetContainer extends model.Container {
     values() { return this.#set.values(); }
     entries() { return this.#set.entries(); }
 
-    has(key) { return (key instanceof model.Resource || key instanceof model.Literal) && this.#set.has(key); }
-    get(key) { return (this.has(key) && key) || undefined; }
+    has(key) {
+        super.has(key);
+        return this.#set.has(key);
+    }
+
+    get(key) {
+        super.get(key);
+        return (this.#set.has(key) && key) || undefined;
+    }
 
     add(value) {
-        if (this.locked) return;
-        _.assert.instance(value, model.Resource, model.Literal);
+        super.add(value);
         this.#set.add(value);
         return value;
     }
 
     set(key, value) {
-        if (this.locked) return;
-        _.assert.instance(value, model.Resource, model.Literal);
-        _.assert.equal(key, value);
+        super.set(key, value);
         this.#set.add(value);
         return value;
     }
 
     delete(key) {
-        if (this.locked) return false;
+        super.delete(key);
         return this.#set.delete(key);
     }
 
     clear() {
-        if (this.locked) return false;
+        super.clear();
         this.#set.clear();
-        return true;
     }
 
 }

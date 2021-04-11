@@ -3,24 +3,19 @@ const
     metamodel = require('../metamodel'),
     model = require('.');
 
-class Action {
+class Action extends metamodel.Resource {
 
     #executor;
 
-    constructor(uid, executor) {
-        _.assert(_.is.IRI(uid), 'Action#constructor - The uid must be an IRI.');
-        _.assert(_.is.function(executor), 'Action#constructor - The executor must be a function.');
-        this.uid = uid;
+    constructor(param, executor) {
+        _.assert.function(executor);
+        super(param);
         this.#executor = executor;
         _.lock.all(this);
     }
 
     async execute(...args) {
         return await this.#executor.apply(null, args);
-    }
-
-    toJSON() {
-        return this.uid;
     }
 
 }
