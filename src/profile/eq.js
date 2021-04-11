@@ -23,4 +23,4 @@ async function eq(left, right) {
     }
 }
 
-module.exports = new model.Operator('odrl:eq', eq);
+module.exports = new model.Operator({ '@id': _.ODRL.eq }, eq);

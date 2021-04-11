@@ -1,0 +1,20 @@
+{
+    "Asset": "odrl:Asset",
+    "AssetCollection": "odrl:AssetCollection",
+    "Party": "odrl:Party",
+    "PartyCollection": "odrl:PartyCollection",
+    "Policy": "odrl:Policy",
+    "Rule": "odrl:Rule",
+    "Permission": "odrl:Permission",
+    "Prohibition": "odrl:Prohibition",
+    "Duty": "odrl:Duty",
+    "Action": "odrl:Action",
+    "Constraint": "odrl:Constraint",
+    "LogicalConstraint": "odrl:LogicalConstraint",
+    "use": "odrl:use",
+    "transfer": "odrl:transfer",
+    "and": "odrl:and",
+    "or": "odrl:or",
+    "eq": "odrl:eq",
+    "dateTime": "odrl:dateTime"
+}

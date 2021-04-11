@@ -9,4 +9,4 @@ async function and(...callbacks) {
     return callbacks.length > 0;
 }
 
-module.exports = new model.LogicalOperator('odrl:and', and);
+module.exports = new model.LogicalOperator({ '@id': _.ODRL.and }, and);

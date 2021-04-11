@@ -9,4 +9,4 @@ async function or(...callbacks) {
     return false;
 }
 
-module.exports = new model.LogicalOperator('odrl:or', or);
+module.exports = new model.LogicalOperator({ '@id': _.ODRL.or }, or);

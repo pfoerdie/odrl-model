@@ -11,7 +11,9 @@ class Rule extends metamodel.Resource {
 
     constructor(param) {
         _.assert.object(param);
+        _.assert.instance(param.action, model.Action);
         super(param['@id'] || _.generateUID());
+        this.action = param.action;
         this.constraint = new ConstraintSet(param.constraint);
         _.lock.all(this);
     }

@@ -1,7 +1,7 @@
 const
-    odrl = require('../src');
+    odrl = require('../../src');
 
-describe('odrl.Constraint', function () {
+describe('model / Constraint', function () {
 
     test('construct a Constraint', function () {
         const c = new odrl.Constraint({

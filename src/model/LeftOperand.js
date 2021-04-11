@@ -8,8 +8,9 @@ class LeftOperand extends metamodel.Resource {
     #resolver;
 
     constructor(param, resolver) {
+        _.assert.object(param);
         _.assert.function(resolver);
-        super(param);
+        super(param['@id']);
         this.#resolver = resolver;
         _.lock.all(this);
     }

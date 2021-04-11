@@ -8,8 +8,9 @@ class Operator extends metamodel.Resource {
     #operator;
 
     constructor(param, operator) {
+        _.assert.object(param);
         _.assert.function(operator);
-        super(param);
+        super(param['@id']);
         this.#operator = operator;
         _.lock.all(this);
     }

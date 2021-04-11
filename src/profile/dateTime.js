@@ -9,4 +9,4 @@ async function dateTime() {
     };
 }
 
-module.exports = new model.LeftOperand('odrl:dateTime', dateTime);
+module.exports = new model.LeftOperand({ '@id': _.ODRL.dateTime }, dateTime);

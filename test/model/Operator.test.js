@@ -1,7 +1,7 @@
 const
-    odrl = require('../src');
+    odrl = require('../../src');
 
-describe('odrl.Operator', function () {
+describe('model / Operator', function () {
 
     test('odrl.eq', async function () {
         expect(odrl.eq).toBeInstanceOf(odrl.Operator);

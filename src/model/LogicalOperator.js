@@ -8,14 +8,15 @@ class LogicalOperator extends metamodel.Resource {
     #operator;
 
     constructor(param, operator) {
+        _.assert.object(param);
         _.assert.function(operator);
-        super(param);
+        super(param['@id']);
         this.#operator = operator;
         _.lock.all(this);
     }
 
     async apply(...operandInvoker) {
-        _.assert(operandInvoker.every(_.is.function));
+        _.assert.array(operandInvoker, _.is.function);
         return await this.#operator.apply(null, operandInvoker);
     }
 

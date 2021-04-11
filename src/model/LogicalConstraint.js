@@ -18,6 +18,12 @@ class LogicalConstraint extends metamodel.Resource {
         _.lock.all(this);
     }
 
+    async evaluate(...args) {
+        const operandInvoker = Array.from(this.operand)
+            .map(constraint => () => constraint.evaluate(...args));
+        return await this.operator.apply(...operandInvoker);
+    }
+
 }
 
 module.exports = LogicalConstraint;
