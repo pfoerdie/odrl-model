@@ -1,4 +1,5 @@
-const { Literal, Resource } = require('../../src/metamodel');
+const
+    { Literal, Resource } = require('../../src/metamodel');
 
 describe('metamodel / Resource', function () {
 

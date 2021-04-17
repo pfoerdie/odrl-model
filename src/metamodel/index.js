@@ -1,3 +1,5 @@
+const _ = require('../util');
+
 exports.Entity = require('./Entity');
 exports.Literal = require('./Literal');
 exports.Resource = require('./Resource');
@@ -9,3 +11,5 @@ exports.ListContainer = require('./ListContainer');
 exports.SetContainer = require('./SetContainer');
 exports.IndexContainer = require('./IndexContainer');
 exports.LanguageContainer = require('./LanguageContainer');
+
+_.lock.all(exports);

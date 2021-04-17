@@ -9,8 +9,21 @@ const lock = module.exports = function (obj, ...keys) {
     return _;
 };
 
+lock.hidden = function (obj, ...keys) {
+    const config = { enumerable: false, writable: false, configurable: false };
+    for (let key of keys) {
+        const writable = !obj.hasOwnProperty(key) || Reflect.getOwnPropertyDescriptor(obj, key).configurable;
+        if (writable) Object.defineProperty(obj, key, config);
+    }
+    return _;
+};
+
 lock.all = function (obj) {
     return lock(obj, ...Object.keys(obj));
+};
+
+lock.all.hidden = function (obj) {
+    return lock.hidden(obj, ...Object.keys(obj));
 };
 
 lock.deep = function (obj, depth = Infinity) {

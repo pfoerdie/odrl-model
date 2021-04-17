@@ -1,4 +1,5 @@
-const { Literal, Resource, GraphContainer } = require('../../src/metamodel');
+const
+    { Literal, Resource, GraphContainer } = require('../../src/metamodel');
 
 describe('metamodel / GraphContainer', function () {
 
