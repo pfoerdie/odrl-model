@@ -21,7 +21,9 @@ class Resource extends model.Entity {
         this.#type = new.target;
     }
 
+    /** @type {string} */
     get uid() { return this.#uid; }
+    /** @type {Function} */
     get type() { return this.#type; }
 
     toJSON() {

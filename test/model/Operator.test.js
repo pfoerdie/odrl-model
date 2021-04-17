@@ -1,7 +1,7 @@
 const
     { Literal, Resource } = require('../../src/metamodel'),
     { Operator } = require('../../src/model'),
-    { dateTime, eq } = require('../../src/profile');
+    { dateTime, eq } = require('../../src/individuals');
 
 describe('model / Operator', function () {
 

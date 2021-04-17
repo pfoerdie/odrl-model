@@ -38,6 +38,7 @@ class Literal extends model.Entity {
         }
     }
 
+    /** @type {string} */
     get value() { return this.#value; }
     set value(value) {
         if (Object.isFrozen(this)) return;
@@ -64,6 +65,7 @@ class Literal extends model.Entity {
         }
     }
 
+    /** @type {string} */
     get language() { return this.#language; }
     set language(language) {
         if (Object.isFrozen(this)) return;
@@ -72,6 +74,7 @@ class Literal extends model.Entity {
         this.#language = language;
     }
 
+    /** @type {string} */
     get datatype() { return this.#datatype; }
     set datatype(datatype) {
         if (Object.isFrozen(this)) return;
@@ -96,6 +99,7 @@ class Literal extends model.Entity {
     }
 
     valueOf() {
+        // TODO maybe remove, maybe rework
         switch (this.#datatype) {
             case _.XSD.boolean:
                 return this.#value === ('' + true);

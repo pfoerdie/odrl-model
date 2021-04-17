@@ -1,7 +1,7 @@
 const
     { Literal, Resource } = require('../../src/metamodel'),
     { Policy } = require('../../src/model'),
-    { prohibit } = require('../../src/profile');
+    { prohibit } = require('../../src/individuals');
 
 describe('model / Policy', function () {
 
