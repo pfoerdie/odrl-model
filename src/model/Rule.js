@@ -25,7 +25,13 @@ class Rule extends metamodel.Resource {
     }
 
     async evaluate(...args) {
-
+        const results = await Promise.all(Array.from(this.constraint)
+            .map(constraint => constraint.evaluate(...args)));
+        // TODO what to do next?
+        if (!results.every(val => val)) return false;
+        const result = await this.action(...args);
+        // TODO what result is expected?
+        return result;
     }
 
 }

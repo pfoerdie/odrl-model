@@ -21,7 +21,22 @@ class Policy extends metamodel.Resource {
     }
 
     async evaluate(...args) {
-
+        // TODO integrate inheritFrom
+        const [permissions, prohibitions] = await Promise.all([
+            Promise.all(Array.from(this.permission)
+                .map(rule => rule.evaluate(...args))),
+            Promise.all(Array.from(this.prohibition)
+                .map(rule => rule.evaluate(...args)))
+        ]);
+        // TODO what to do next?
+        const conflict = await this.conflict.apply(permissions, prohibitions);
+        // TODO what is the conflict result and what to do with it?
+        if (conflict) return;
+        const obligation = await Promise.all(Array.from(this.obligation)
+            .map(rule => rule.evaluate(...args)));
+        // TODO which action must be performed and what result should be returned?
+        const decision = obligation.every(val => val) ? 'Permit' : 'Prohibit';
+        return decision;
     }
 
 }
