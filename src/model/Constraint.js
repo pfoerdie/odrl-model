@@ -28,7 +28,12 @@ class Constraint extends metamodel.Resource {
     }
 
     async evaluate(...args) {
-
+        const
+            leftOperand = await this.leftOperand.resolve(...args),
+            rightOperand = this.rightOperand,
+            result = await this.operator.apply(leftOperand, rightOperand);
+        // TODO what to do with the result?
+        return result;
     }
 
 }

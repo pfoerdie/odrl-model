@@ -19,7 +19,9 @@ class LeftOperand extends metamodel.Resource {
     }
 
     async resolve(...args) {
-        return await this.#resolver.apply(null, args);
+        const result = await this.#resolver.apply(null, args);
+        _.assert.instance(result, metamodel.Entity);
+        return result;
     }
 
 }

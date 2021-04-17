@@ -15,6 +15,14 @@ assert.equal = function (value, other) {
     throw err;
 };
 
+assert.boolean = function (value) {
+    if (_.is.boolean(value)) return;
+    const errMsg = 'not a boolean';
+    const err = new TypeError(errMsg);
+    Error.captureStackTrace(err, assert.boolean);
+    throw err;
+};
+
 assert.number = function (value, min = -Infinity, max = Infinity) {
     if (_.is.number(value) && value >= min && value <= max) return;
     const errMsg = 'not a valid number';

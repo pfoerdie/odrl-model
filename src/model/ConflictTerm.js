@@ -19,10 +19,12 @@ class ConflictTerm extends metamodel.Resource {
         _.lock.all(this);
     }
 
-    async apply(permissions, prohibitions) {
+    async apply(permissions, prohibitions) { // TODO what kind of arguments?
         _.assert.instance(permissions, model.PermissionContainer);
         _.assert.object(prohibitions);
-        return await this.#operator.call(null, permissions, prohibitions);
+        const result = await this.#operator.call(null, permissions, prohibitions);
+        // TODO what kind od result?
+        return result;
     }
 
 }

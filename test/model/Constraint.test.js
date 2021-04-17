@@ -18,4 +18,15 @@ describe('model / Constraint', function () {
         debugger;
     });
 
+    test('evaluate a Constraint', async function () {
+        const c = new Constraint({
+            leftOperand: dateTime,
+            operator: eq,
+            rightOperand: await dateTime.resolve()
+        });
+        const result = await c.evaluate();
+        expect(result).toBe(true);
+        debugger;
+    });
+
 });
