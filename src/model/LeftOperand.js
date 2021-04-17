@@ -3,6 +3,9 @@ const
     metamodel = require('../metamodel'),
     model = require('.');
 
+/**
+ * Left operand for a constraint expression.
+ */
 class LeftOperand extends metamodel.Resource {
 
     #resolver;

@@ -3,16 +3,15 @@ const
     metamodel = require('../metamodel'),
     model = require('.');
 
-class PartyCollectionSet extends metamodel.IdContainer {
-    static validValue(value) { return value instanceof model.PartyCollection; }
-}
-
+/**
+ * An entity or a collection of entities that undertake Roles in a Rule.
+ */
 class Party extends metamodel.Resource {
 
     constructor(param) {
         _.assert.object(param);
         super(param['@id']);
-        this.partOf = new PartyCollectionSet(this.partOf);
+        this.partOf = new model.PartyCollectionGraph(param.partOf);
         _.lock.all(this);
     }
 

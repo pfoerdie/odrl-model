@@ -3,23 +3,20 @@ const
     metamodel = require('../metamodel'),
     model = require('.');
 
-class RuleSet extends metamodel.GraphContainer {
-    static validValue(value) { return value instanceof model.Rule; }
-}
-
-class PolicySet extends metamodel.IdContainer {
-    static validValue(value) { return value instanceof model.Policy; }
-}
-
+/**
+ * A non-empty group of Permissions and/or Prohibitions.
+ */
 class Policy extends metamodel.Resource {
 
     constructor(param) {
         _.assert.object(param);
         super(param['@id']);
-        this.permission = new RuleSet(param.permission);
-        this.prohibition = new RuleSet(param.prohibition);
-        this.obligation = new RuleSet(param.obligation);
-        this.inheritFrom = new PolicySet(param.inheritFrom);
+        _.assert.instance(param.conflict, model.ConflictTerm);
+        this.conflict = param.conflict;
+        this.permission = new model.PermissionGraph(param.permission);
+        this.prohibition = new model.ProhibitionGraph(param.prohibition);
+        this.obligation = new model.ObligationGraph(param.obligation);
+        this.inheritFrom = new model.PolicyGraph(param.inheritFrom);
         _.lock.all(this);
     }
 

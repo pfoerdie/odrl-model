@@ -4,7 +4,12 @@ const
 
 class IdContainer extends model.GraphContainer {
 
-    toJSON() { return Array.from(this.values()).map(value => ({ '@id': value.uid })); }
+    static validValue(value) { return value instanceof model.Identifier; }
+
+    toJSON() {
+        return Array.from(this.values())
+            .map(value => model.Identifier.prototype.toJSON.call(value));
+    }
 
 }
 

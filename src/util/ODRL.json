@@ -16,5 +16,8 @@
     "and": "odrl:and",
     "or": "odrl:or",
     "eq": "odrl:eq",
-    "dateTime": "odrl:dateTime"
+    "dateTime": "odrl:dateTime",
+    "prohibit": "odrl:prohibit",
+    "perm": "odrl:perm",
+    "invalid": "odrl:invalid"
 }

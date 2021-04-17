@@ -3,15 +3,15 @@ const
     metamodel = require('../metamodel'),
     model = require('.');
 
-class DutySet extends metamodel.IdContainer {
-    static validValue(value) { return value instanceof model.Duty; }
-}
-
+/**
+ * The inability to perform an Action over an Asset.
+ */
 class Prohibition extends model.Rule {
 
     constructor(param) {
         super(param);
-        this.remedy = new DutySet(param.remedy);
+        this.remedy = new model.DutyGraph(param.remedy);
+        _.assert(this.target);
         _.lock.all(this);
     }
 

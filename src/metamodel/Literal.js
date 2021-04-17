@@ -2,13 +2,15 @@ const
     _ = require('../util'),
     model = require('.');
 
-class Literal {
+class Literal extends model.Entity {
 
     #value = '';
     #language = '';
     #datatype = _.XSD.string;
 
     constructor(param) {
+        super();
+
         let
             native = !_.is.object(param),
             value = native ? param : param['@value'],

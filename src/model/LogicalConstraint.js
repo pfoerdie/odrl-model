@@ -3,10 +3,10 @@ const
     metamodel = require('../metamodel'),
     model = require('.');
 
-class ConstraintSet extends metamodel.ListContainer {
-    static validValue(value) { return value instanceof model.Constraint; }
-}
-
+/**
+ * A logical expression that refines the semantics of an Action and Party/Asset Collection 
+ * or declare the conditions applicable to a Rule.
+ */
 class LogicalConstraint extends metamodel.Resource {
 
     constructor(param) {
@@ -14,7 +14,7 @@ class LogicalConstraint extends metamodel.Resource {
         _.assert.instance(param.operator, model.LogicalOperator);
         super(param['@id'] || _.generateUID());
         this.operator = param.operator;
-        this.operand = new ConstraintSet(param.operand);
+        this.operand = new model.ConstraintList(param.operand);
         _.lock.all(this);
     }
 

@@ -3,10 +3,9 @@ const
     metamodel = require('../metamodel'),
     model = require('.');
 
-class ActionSet extends metamodel.IdContainer {
-    static validValue(value) { return value instanceof model.Action; }
-}
-
+/**
+ * An operation on an Asset.
+ */
 class Action extends metamodel.Resource {
 
     #executor;
@@ -21,9 +20,10 @@ class Action extends metamodel.Resource {
         } else {
             _.assert.instance(param.includedIn, model.Action);
             this.includedIn = param.includedIn;
-            this.implies = new ActionSet(param.implies);
+            this.implies = new model.ActionGraph(param.implies);
         }
         this.#executor = executor;
+        this.refinement = new model.ConstraintGraph(param.refinement);
         _.lock.all(this);
     }
 

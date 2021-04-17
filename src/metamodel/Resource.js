@@ -2,12 +2,13 @@ const
     _ = require('../util'),
     model = require('.');
 
-class Resource {
+class Resource extends model.Entity {
 
     #uid = '';
     #type = null;
 
     constructor(param) {
+        super();
         if (_.is.string(param)) {
             _.assert.string(param, _.pattern.IRI);
             this.#uid = param;
@@ -24,7 +25,7 @@ class Resource {
     get type() { return this.#type; }
 
     toJSON() {
-        return Object.assign({ '@id': this.#uid }, this);
+        return Object.assign({ '@id': this.#uid, '@type': this.#type.name }, this);
     }
 
 }

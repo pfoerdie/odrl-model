@@ -2,7 +2,7 @@ const
     _ = require('../util'),
     model = require('.');
 
-class Container {
+class Container extends model.Entity {
 
     static validKey(key) { return _.is.number(key) || _.is.string(key) || this.validValue(key); }
     static validValue(value) { return value instanceof model.Resource || value instanceof model.Literal; }
@@ -12,11 +12,11 @@ class Container {
 
     constructor(entries) {
         _.assert(new.target !== Container, 'abstract class');
+        super();
         this.#type = new.target;
     }
 
     get size() { return 0; }
-    toJSON() { return null; }
 
     keys() { return null; }
     values() { return null; }

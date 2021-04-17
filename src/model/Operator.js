@@ -3,6 +3,9 @@ const
     metamodel = require('../metamodel'),
     model = require('.');
 
+/**
+ * Operator for constraint expression.
+ */
 class Operator extends metamodel.Resource {
 
     #operator;

@@ -1,17 +1,29 @@
 exports.Asset = require('./Asset');
 exports.AssetCollection = require('./AssetCollection');
+exports.AssetCollectionGraph = require('./AssetCollectionGraph');
 exports.Party = require('./Party');
 exports.PartyCollection = require('./PartyCollection');
+exports.PartyCollectionGraph = require('./PartyCollectionGraph');
 
+exports.ConflictTerm = require('./ConflictTerm');
 exports.Policy = require('./Policy');
+exports.PolicyGraph = require('./PolicyGraph');
 exports.Rule = require('./Rule');
 exports.Permission = require('./Permission');
+exports.PermissionGraph = require('./PermissionGraph');
 exports.Prohibition = require('./Prohibition');
+exports.ProhibitionGraph = require('./ProhibitionGraph');
 exports.Duty = require('./Duty');
+exports.DutyGraph = require('./DutyGraph');
+exports.ObligationGraph = require('./ObligationGraph');
 exports.Action = require('./Action');
+exports.ActionGraph = require('./ActionGraph');
 
 exports.LogicalConstraint = require('./LogicalConstraint');
 exports.Constraint = require('./Constraint');
+exports.ConstraintGraph = require('./ConstraintGraph');
+exports.ConstraintList = require('./ConstraintList');
 exports.Operator = require('./Operator');
 exports.LogicalOperator = require('./LogicalOperator');
 exports.LeftOperand = require('./LeftOperand');
+exports.RightOperand = require('./RightOperand');

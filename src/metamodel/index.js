@@ -1,9 +1,10 @@
+exports.Entity = require('./Entity');
 exports.Literal = require('./Literal');
 exports.Resource = require('./Resource');
+exports.Identifier = require('./Identifier');
 exports.Container = require('./Container');
 exports.GraphContainer = require('./GraphContainer');
 exports.IdContainer = require('./IdContainer');
-exports.TypeContainer = require('./TypeContainer');
 exports.ListContainer = require('./ListContainer');
 exports.SetContainer = require('./SetContainer');
 exports.IndexContainer = require('./IndexContainer');

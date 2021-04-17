@@ -3,15 +3,16 @@ const
     metamodel = require('../metamodel'),
     model = require('.');
 
-class ConstraintSet extends metamodel.GraphContainer {
-    static validValue(value) { return value instanceof model.Constraint || value instanceof model.LogicalConstraint; }
-}
-
+/**
+ * A Party that is a group of individual entities.
+ */
 class PartyCollection extends model.Party {
 
     constructor(param) {
         super(param);
-        this.refinement = new ConstraintSet(this.refinement);
+        this.refinement = new model.ConstraintGraph(param.refinement);
+        if (param.source) _.assert.string(param.source, _.pattern.IRI);
+        this.source = param.source || null;
         _.lock.all(this);
     }
 
