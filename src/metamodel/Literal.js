@@ -55,6 +55,9 @@ class Literal extends model.Entity {
             case _.XSD.float:
                 this.#value = _.parse.xsd_float(value).toString();
                 break;
+            case _.XSD.date:
+                this.#value = _.parse.xsd_date(value).toString();
+                break;
             default:
                 this.#value = _.parse(value).toString();
                 break;
