@@ -1,11 +1,14 @@
 const
     _ = require('../util'),
-    model = require('.');
+    metamodel = require('.');
 
-class Identifier extends model.Resource {
+class Identifier extends metamodel.Resource {
 
+    /**
+     * @param {string|{'@id': string}} param 
+     */
     constructor(param) {
-        super(_.is.object(param) ? param['@id'] : param);
+        super((_.is.object(param) && (param['@id'] || param.uid || param.id)) || param);
     }
 
     toJSON() { return { '@id': this.uid }; }

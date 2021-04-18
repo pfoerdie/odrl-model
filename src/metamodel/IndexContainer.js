@@ -1,12 +1,12 @@
 const
     _ = require('../util'),
-    model = require('.');
+    metamodel = require('.');
 const { validValue } = require('./Container');
 
-class IndexContainer extends model.Container {
+class IndexContainer extends metamodel.Container {
 
     static validKey(key) { return _.is.string(key); }
-    static validValue(value) { return value instanceof model.Resource || value instanceof model.Literal; }
+    static validValue(value) { return value instanceof metamodel.Resource || value instanceof metamodel.Literal; }
 
     #map = new Map();
 
@@ -39,10 +39,10 @@ class IndexContainer extends model.Container {
 
     add(value) {
         super.add(value);
-        if (value instanceof model.Resource) {
+        if (value instanceof metamodel.Resource) {
             const key = value.uid;
             return this.set(key, value);
-        } else if (value instanceof model.Literal) {
+        } else if (value instanceof metamodel.Literal) {
             const key = value.language || value.datatype;
             return this.set(key, value);
         }

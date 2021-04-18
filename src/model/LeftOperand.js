@@ -13,7 +13,7 @@ class LeftOperand extends metamodel.Resource {
     constructor(param, resolver) {
         _.assert.object(param);
         _.assert.function(resolver);
-        super(param['@id']);
+        super(param['@id'] || param.uid);
         this.#resolver = resolver;
         _.lock.all(this);
     }

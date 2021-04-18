@@ -10,7 +10,7 @@ class Asset extends metamodel.Resource {
 
     constructor(param) {
         _.assert.object(param);
-        super(param['@id']);
+        super(param['@id'] || param.uid);
         this.partOf = new model.AssetCollectionGraph(param.partOf);
         this.hasPolicy = new model.PolicyGraph(param.hasPolicy);
         _.lock.all(this);

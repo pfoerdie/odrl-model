@@ -1,14 +1,14 @@
 const
     _ = require('../util'),
-    model = require('.');
+    metamodel = require('.');
 
-class IdContainer extends model.GraphContainer {
+class IdContainer extends metamodel.GraphContainer {
 
-    static validValue(value) { return value instanceof model.Identifier; }
+    static validValue(value) { return value instanceof metamodel.Identifier; }
 
     toJSON() {
         return Array.from(this.values())
-            .map(value => model.Identifier.prototype.toJSON.call(value));
+            .map(value => metamodel.Identifier.prototype.toJSON.call(value));
     }
 
 }

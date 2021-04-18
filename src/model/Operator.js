@@ -13,7 +13,7 @@ class Operator extends metamodel.Resource {
     constructor(param, operator) {
         _.assert.object(param);
         _.assert.function(operator);
-        super(param['@id']);
+        super(param['@id'] || param.uid);
         this.#operator = operator;
         _.lock.all(this);
     }

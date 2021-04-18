@@ -1,8 +1,8 @@
 const
     _ = require('../util'),
-    model = require('.');
+    metamodel = require('.');
 
-class Resource extends model.Entity {
+class Resource extends metamodel.Entity {
 
     #uid = '';
     #type = null;

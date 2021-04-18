@@ -1,11 +1,11 @@
 const
     _ = require('../util'),
-    model = require('.');
+    metamodel = require('.');
 
-class SetContainer extends model.Container {
+class SetContainer extends metamodel.Container {
 
     static validKey(key) { return this.validValue(key); }
-    static validValue(value) { return value instanceof model.Resource || value instanceof model.Literal; }
+    static validValue(value) { return value instanceof metamodel.Resource || value instanceof metamodel.Literal; }
     static validEntry(key, value) { return key === value && this.validValue(value); }
 
     #set = new Set();

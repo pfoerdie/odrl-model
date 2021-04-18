@@ -10,7 +10,7 @@ class RightOperand extends metamodel.Resource {
 
     constructor(param) {
         _.assert.object(param);
-        super(param['@id'] || _.generateUID());
+        super(param['@id'] || param.uid || _.generateUID());
         for (let [key, value] of Object.entries(param)) {
             if (_.is.string.IRI(key)) {
                 _.assert.instance(value, metamodel.Entity);

@@ -1,5 +1,6 @@
 const
-    _ = require('../util');
+    _ = require('../util'),
+    metamodel = require('.');
 
 class Entity {
 

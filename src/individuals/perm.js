@@ -9,6 +9,6 @@ module.exports = new model.ConflictTerm(
     { '@id': _.ODRL.perm },
     async function () {
         // TODO
-        _.assert(false);
+        _.assert(false, 'not implemented');
     }
 );

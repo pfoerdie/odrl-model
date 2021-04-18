@@ -7,6 +7,8 @@ exports.PartyCollectionGraph = require('./PartyCollectionGraph');
 // Policy Concepts (hidden)
 exports.ConflictTerm = require('./ConflictTerm');
 exports.PolicyGraph = require('./PolicyGraph');
+exports.PolicyContext = require('./PolicyContext');
+exports.RuleContext = require('./RuleContext');
 exports.PermissionGraph = require('./PermissionGraph');
 exports.ProhibitionGraph = require('./ProhibitionGraph');
 exports.DutyGraph = require('./DutyGraph');
@@ -14,6 +16,7 @@ exports.ObligationGraph = require('./ObligationGraph');
 
 // Action Concepts (hidden)
 exports.ActionGraph = require('./ActionGraph');
+exports.ActionContext = require('./ActionContext');
 
 // Constraint Concepts (hidden)
 exports.Operator = require('./Operator');
@@ -32,6 +35,7 @@ exports.PartyCollection = require('./PartyCollection');
 
 // Policy Concepts
 exports.Policy = require('./Policy');
+exports.RequestPolicy = require('./RequestPolicy');
 exports.Rule = require('./Rule');
 exports.Permission = require('./Permission');
 exports.Prohibition = require('./Prohibition');

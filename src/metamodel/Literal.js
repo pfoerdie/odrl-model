@@ -1,18 +1,21 @@
 const
     _ = require('../util'),
-    model = require('.');
+    metamodel = require('.');
 
-class Literal extends model.Entity {
+class Literal extends metamodel.Entity {
 
     #value = '';
     #language = '';
     #datatype = _.XSD.string;
 
+    /**
+     * @param {string|boolean|number|{'@value': string, '@language'?: string, '@type'?: string}} param 
+     */
     constructor(param) {
         super();
 
         let
-            native = !_.is.object(param),
+            native = !(_.is.object(param) && _.is.string(param['@value'])),
             value = native ? param : param['@value'],
             language = native ? null : param['@language'],
             datatype = native ? null : param['@type'];
@@ -31,7 +34,11 @@ class Literal extends model.Entity {
             this.datatype = _.XSD.boolean;
             this.value = value;
         } else if (_.is.number(value)) {
-            this.datatype = _.is.number.integer(value) ? _.XSD.decimal : _.XSD.float;
+            // this.datatype = _.XSD.decimal;
+            this.datatype = _.is.number.integer(value) ? _.XSD.integer : _.XSD.float;
+            this.value = value;
+        } else if (value instanceof Date) {
+            this.datatype = _.XSD.date;
             this.value = value;
         } else {
             this.value = value;
@@ -50,11 +57,12 @@ class Literal extends model.Entity {
             case _.XSD.boolean:
                 this.#value = _.parse.xsd_boolean(value).toString();
                 break;
-            case _.XSD.decimal:
-                this.#value = _.parse.xsd_decimal(value).toString();
+            case _.XSD.integer:
+                this.#value = _.parse.xsd_integer(value).toString();
                 break;
+            case _.XSD.decimal:
             case _.XSD.float:
-                this.#value = _.parse.xsd_float(value).toString();
+                this.#value = _.parse.xsd_decimal(value).toString();
                 break;
             case _.XSD.date:
                 this.#value = _.parse.xsd_date(value).toString();

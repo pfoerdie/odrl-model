@@ -19,7 +19,7 @@ class Constraint extends metamodel.Resource {
         } else {
             _.assert.instance(param.rightOperandReference, metamodel.Identifier, metamodel.IdContainer);
         }
-        super(param['@id'] || _.generateUID());
+        super(param['@id'] || param.uid || _.generateUID());
         this.operator = param.operator;
         this.leftOperand = param.leftOperand;
         this.rightOperand = param.rightOperand || null;

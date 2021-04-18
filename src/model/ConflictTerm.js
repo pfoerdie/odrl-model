@@ -14,13 +14,14 @@ class ConflictTerm extends metamodel.Resource {
     constructor(param, operator) {
         _.assert.object(param);
         _.assert.function(operator);
-        super(param['@id']);
+        super(param['@id'] || param.uid);
         this.#operator = operator;
         _.lock.all(this);
     }
 
     async apply(permissions, prohibitions) { // TODO what kind of arguments?
-        _.assert.instance(permissions, model.PermissionContainer);
+        // _.assert.instance(permissions, model.PermissionContainer);
+        _.assert.object(permissions);
         _.assert.object(prohibitions);
         const result = await this.#operator.call(null, permissions, prohibitions);
         // TODO what kind od result?

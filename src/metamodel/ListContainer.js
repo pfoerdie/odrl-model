@@ -1,11 +1,11 @@
 const
     _ = require('../util'),
-    model = require('.');
+    metamodel = require('.');
 
-class ListContainer extends model.Container {
+class ListContainer extends metamodel.Container {
 
     static validKey(key) { return _.is.number(key); }
-    static validValue(value) { return value instanceof model.Resource || value instanceof model.Literal; }
+    static validValue(value) { return value instanceof metamodel.Resource || value instanceof metamodel.Literal; }
 
     #list = [];
 

@@ -13,7 +13,7 @@ class Rule extends metamodel.Resource {
         _.assert(new.target !== Rule, 'abstract class');
         _.assert.object(param);
         _.assert.instance(param.action, model.Action);
-        super(param['@id'] || _.generateUID());
+        super(param['@id'] || param.uid || _.generateUID());
         this.action = param.action;
         this.constraint = new model.ConstraintGraph(param.constraint);
         if (param.target) _.assert.instance(param.target, model.Asset);

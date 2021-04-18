@@ -1,11 +1,11 @@
 const
     _ = require('../util'),
-    model = require('.');
+    metamodel = require('.');
 
-class LanguageContainer extends model.IndexContainer {
+class LanguageContainer extends metamodel.IndexContainer {
 
     static validKey(key) { return _.is.string.Language(key); }
-    static validValue(value) { return value instanceof model.Literal && value.datatype === _.RDF.langString; }
+    static validValue(value) { return value instanceof metamodel.Literal && value.datatype === _.RDF.langString; }
     static validEntry(key, value) { return this.validKey(key) && this.validValue(value) && key === value.language; }
 
 }

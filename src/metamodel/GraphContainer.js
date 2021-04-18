@@ -1,11 +1,11 @@
 const
     _ = require('../util'),
-    model = require('.');
+    metamodel = require('.');
 
-class GraphContainer extends model.Container {
+class GraphContainer extends metamodel.Container {
 
     static validKey(key) { return _.is.string.IRI(key); }
-    static validValue(value) { return value instanceof model.Resource; }
+    static validValue(value) { return value instanceof metamodel.Resource; }
     static validEntry(key, value) { return this.validKey(key) && this.validValue(value) && key === value.uid; }
 
     #graph = new Map();

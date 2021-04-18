@@ -20,4 +20,4 @@ _.assert = require('./assert');
 _.create = require('./create');
 _.lock = require('./lock');
 
-_.lock.deep(exports);
+_.lock.deep.hidden(exports);

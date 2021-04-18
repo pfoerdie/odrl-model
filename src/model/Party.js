@@ -10,7 +10,7 @@ class Party extends metamodel.Resource {
 
     constructor(param) {
         _.assert.object(param);
-        super(param['@id']);
+        super(param['@id'] || param.uid);
         this.partOf = new model.PartyCollectionGraph(param.partOf);
         _.lock.all(this);
     }

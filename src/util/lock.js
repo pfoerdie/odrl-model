@@ -38,3 +38,16 @@ lock.deep = function (obj, depth = Infinity) {
     }
     return _;
 };
+
+lock.deep.hidden = function (obj, depth = Infinity) {
+    const config = { enumerable: false, writable: false, configurable: false };
+    for (let [key, child] of Object.entries(obj)) {
+        const writable = !obj.hasOwnProperty(key) || Reflect.getOwnPropertyDescriptor(obj, key).configurable;
+        if (writable) {
+            Object.defineProperty(obj, key, config);
+            if (child instanceof Object && depth > 0)
+                lock.deep.hidden(child, depth - 1);
+        }
+    }
+    return _;
+};

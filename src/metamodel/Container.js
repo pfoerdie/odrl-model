@@ -1,14 +1,14 @@
 const
     _ = require('../util'),
-    model = require('.');
+    metamodel = require('.');
 
 /**
- * @abstract
+ * @abstract 
  */
-class Container extends model.Entity {
+class Container extends metamodel.Entity {
 
     static validKey(key) { return _.is.number(key) || _.is.string(key) || this.validValue(key); }
-    static validValue(value) { return value instanceof model.Resource || value instanceof model.Literal; }
+    static validValue(value) { return value instanceof metamodel.Resource || value instanceof metamodel.Literal; }
     static validEntry(key, value) { return this.validKey(key) && this.validValue(value); }
 
     #type = null;

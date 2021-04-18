@@ -13,7 +13,7 @@ class Action extends metamodel.Resource {
     constructor(param, executor) {
         _.assert.object(param);
         _.assert.function(executor);
-        super(param['@id']);
+        super(param['@id'] || param.uid);
         if (this.uid === _.ODRL.use || this.uid === _.ODRL.transfer) {
             this.includedIn = null;
             this.implies = null;

@@ -1,18 +1,27 @@
 const
     _ = require('../util'),
-    model = require('.');
+    metamodel = require('.'),
+    findRoot = (ctx) => (ctx.parent && findRoot(ctx.parent)) || ctx;
 
 class Context {
 
-    #type = null;
-    #parent = null;
-
-    constructor(parent) {
-        this.#type = new.target;
-        if (this.#type !== Context) {
+    /**
+     * @param {model.Entity} target 
+     * @param {model.Context} [parent] 
+     */
+    constructor(target, parent) {
+        _.assert.instance(target, metamodel.Entity);
+        if (new.target === Context) {
+            parent = null;
+        } else {
             _.assert.instance(parent, Context);
-            this.#parent = parent;
         }
+        this.type = new.target;
+        this.target = target;
+        this.parent = parent;
+        /** @type {model.Context} */
+        this.root = findRoot(this);
+        _.lock.all.hidden(this);
     }
 
 }

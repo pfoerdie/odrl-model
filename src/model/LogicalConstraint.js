@@ -12,7 +12,7 @@ class LogicalConstraint extends metamodel.Resource {
     constructor(param) {
         _.assert.object(param);
         _.assert.instance(param.operator, model.LogicalOperator);
-        super(param['@id'] || _.generateUID());
+        super(param['@id'] || param.uid || _.generateUID());
         this.operator = param.operator;
         this.operand = new model.ConstraintList(param.operand);
         _.lock.all(this);

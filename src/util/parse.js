@@ -32,14 +32,14 @@ parse.xsd_boolean = function (value) {
 };
 
 parse.xsd_decimal = function (value) {
-    let decimal = parseInt(value);
+    let decimal = parseFloat(value);
     value = '' + decimal;
     return parse(value);
 };
 
-parse.xsd_float = function (value) {
-    let float = parseFloat(value);
-    value = '' + float;
+parse.xsd_integer = function (value) {
+    let decimal = parseInt(value);
+    value = '' + decimal;
     return parse(value);
 };
 
@@ -47,4 +47,21 @@ parse.xsd_date = function (value) {
     let date = new Date(value);
     value = date.toISOString();
     return parse(value, null, date);
+};
+
+parse.xsd_language = function (value) {
+    _.assert.string(value, _.pattern.Language);
+    return parse(value);
+};
+
+parse.xsd_anyURI = function (value) {
+    _.assert.string(value, _.pattern.IRI);
+    return parse(value);
+};
+
+parse.xsd_byte = function (value) {
+    const buffer = Buffer.from(value);
+    _.assert.number(buffer.length, 1, 1);
+    value = buffer.toString('hex');
+    return parse(value, null, buffer);
 };
