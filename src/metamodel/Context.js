@@ -5,9 +5,12 @@ const
 
 class Context {
 
+    /** @type {Map<string, metamodel.Entity>} */
+    #cache = new Map();
+
     /**
-     * @param {model.Entity} target 
-     * @param {model.Context} [parent] 
+     * @param {metamodel.Entity} target 
+     * @param {metamodel.Context} [parent] 
      */
     constructor(target, parent) {
         _.assert.instance(target, metamodel.Entity);
@@ -19,9 +22,38 @@ class Context {
         this.type = new.target;
         this.target = target;
         this.parent = parent;
-        /** @type {model.Context} */
+        /** @type {metamodel.Context} */
         this.root = findRoot(this);
         _.lock.all.hidden(this);
+    }
+
+    /**
+     * @param {string} key 
+     * @returns {boolean}
+     */
+    has(key) {
+        return this.#cache.has(key);
+    }
+
+    /**
+     * @param {string} key 
+     * @returns {metamodel.Entity}
+     */
+    get(key) {
+        return this.#cache.get(key);
+    }
+
+    /**
+     * @param {string} key 
+     * @param {metamodel.Entity} value 
+     * @returns {metamodel.Entity}
+     */
+    set(key, value) {
+        _.assert.string(key, _.pattern.IRI);
+        _.assert.instance(value, metamodel.Entity);
+        _.assert(!this.#cache.has(key), 'already set');
+        this.#cache.set(key, value);
+        return value;
     }
 
 }

@@ -7,6 +7,9 @@ class Resource extends metamodel.Entity {
     #uid = '';
     #type = null;
 
+    /**
+     * @param {string | {'@id': string}} param 
+     */
     constructor(param) {
         super();
         if (_.is.string(param)) {

@@ -21,7 +21,7 @@ is.string = function (value) {
 };
 
 is.string.nonempty = function (value) {
-    return is.string(value) && value.length > 0;
+    return is.string(value) && _.pattern.nonempty.test(value);
 };
 
 is.string.IRI = function (value) {
@@ -50,12 +50,4 @@ is.array = function (value) {
 
 is.array.nonempty = function (value) {
     return is.array(value) && value.length > 0;
-};
-
-is.IRI = function (value) {
-    return _.pattern.IRI.test(value);
-};
-
-is.Language = function (value) {
-    return _.pattern.Language.test(value);
 };

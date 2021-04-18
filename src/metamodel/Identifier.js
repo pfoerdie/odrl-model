@@ -5,7 +5,7 @@ const
 class Identifier extends metamodel.Resource {
 
     /**
-     * @param {string|{'@id': string}} param 
+     * @param {string | {'@id': string}} param 
      */
     constructor(param) {
         super((_.is.object(param) && (param['@id'] || param.uid || param.id)) || param);
