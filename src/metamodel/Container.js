@@ -2,6 +2,9 @@ const
     _ = require('../util'),
     model = require('.');
 
+/**
+ * @abstract
+ */
 class Container extends model.Entity {
 
     static validKey(key) { return _.is.number(key) || _.is.string(key) || this.validValue(key); }

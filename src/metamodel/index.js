@@ -1,5 +1,9 @@
 const _ = require('../util');
 
+exports.Context = require('./Context');
+
+_.lock.all.hidden(exports);
+
 exports.Entity = require('./Entity');
 exports.Literal = require('./Literal');
 exports.Resource = require('./Resource');

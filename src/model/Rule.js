@@ -5,6 +5,7 @@ const
 
 /**
  * An abstract concept that represents the common characteristics of Permissions, Prohibitions, and Duties.
+ * @abstract
  */
 class Rule extends metamodel.Resource {
 
