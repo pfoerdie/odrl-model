@@ -19,8 +19,11 @@ class Context {
         } else {
             _.assert.instance(parent, Context);
         }
+        /** @type {Function<metamodel.Context>} */
         this.type = new.target;
+        /** @type {metamodel.Entity} */
         this.target = target;
+        /** @type {metamodel.Context} */
         this.parent = parent;
         /** @type {metamodel.Context} */
         this.root = findRoot(this);
