@@ -9,4 +9,4 @@ module.exports = new odrl.Constraint({
         '@type': 'xsd:date',
         '@value': new Date().toUTCString()
     })
-});
+}, 'test', null, () => null, { '@id': 'test' }, 123, false);

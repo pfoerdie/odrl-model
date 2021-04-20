@@ -20,6 +20,7 @@ _.pattern = require('./pattern');
 _.is = require('./is');
 _.validate = require('./validate');
 _.assert = require('./assert');
+_.audit = require('./audit');
 _.create = require('./create');
 _.lock = require('./lock');
 
