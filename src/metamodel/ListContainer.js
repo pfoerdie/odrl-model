@@ -2,13 +2,22 @@ const
     _ = require('../util'),
     metamodel = require('.');
 
+/**
+ * @template {number} Key
+ * @template {metamodel.Resource|metamodel.Literal} Value
+ * @extends metamodel.Container<Key,Value>
+ */
 class ListContainer extends metamodel.Container {
 
     static validKey(key) { return _.is.number(key); }
     static validValue(value) { return value instanceof metamodel.Resource || value instanceof metamodel.Literal; }
 
+    /** @type {Array<Value>} */
     #list = [];
 
+    /**
+     * @param {Array<Value>} [list] 
+     */
     constructor(list) {
         super(list);
         if (list) {

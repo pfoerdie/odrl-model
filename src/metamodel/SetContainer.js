@@ -2,14 +2,23 @@ const
     _ = require('../util'),
     metamodel = require('.');
 
+/**
+ * @template {Value} Key
+ * @template {metamodel.Resource|metamodel.Literal} Value
+ * @extends metamodel.Container<Key,Value>
+ */
 class SetContainer extends metamodel.Container {
 
     static validKey(key) { return this.validValue(key); }
     static validValue(value) { return value instanceof metamodel.Resource || value instanceof metamodel.Literal; }
     static validEntry(key, value) { return key === value && this.validValue(value); }
 
+    /** @type {Set<Value>} */
     #set = new Set();
 
+    /**
+     * @param {Array<Value>} [set] 
+     */
     constructor(set) {
         super();
         if (set) {

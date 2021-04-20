@@ -12,6 +12,9 @@ _.RDF = require('./RDF.json');
 _.XSD = require('./XSD.json');
 _.ODRL = require('./ODRL.json');
 
+/** @typedef {string} IRI */
+/** @typedef {string} Language */
+
 _.parse = require('./parse');
 _.pattern = require('./pattern');
 _.is = require('./is');

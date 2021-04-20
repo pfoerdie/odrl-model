@@ -5,7 +5,7 @@ const
 
 class Context {
 
-    /** @type {Map<string, metamodel.Entity>} */
+    /** @type {Map<_.IRI, metamodel.Entity>} */
     #cache = new Map();
 
     /**
@@ -28,7 +28,7 @@ class Context {
     }
 
     /**
-     * @param {string} key 
+     * @param {_.IRI} key 
      * @returns {boolean}
      */
     has(key) {
@@ -36,7 +36,7 @@ class Context {
     }
 
     /**
-     * @param {string} key 
+     * @param {_.IRI} key 
      * @returns {metamodel.Entity}
      */
     get(key) {
@@ -44,7 +44,7 @@ class Context {
     }
 
     /**
-     * @param {string} key 
+     * @param {_.IRI} key 
      * @param {metamodel.Entity} value 
      * @returns {metamodel.Entity}
      */

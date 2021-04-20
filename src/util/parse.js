@@ -14,37 +14,37 @@ const parse = module.exports = function (value, methods = null, ctx = null) {
 };
 
 parse.xsd_string = function (value) {
-    let string = value?.toString() || '';
+    const string = value?.toString() || '';
     value = string;
     return parse(value);
 };
 
 parse.xsd_boolean = function (value) {
-    let bool = value || false;
-    bool = value || false;
-    bool = value !== '0' && value;
-    bool = value !== 'false' && value;
-    bool = value !== 'null' && value;
-    bool = value !== 'NaN' && value;
-    bool = value && true;
-    value = '' + bool;
+    const bool = !(!value
+        || value === '0'
+        || value === 'false'
+        || value === 'null'
+        || value === 'undefined'
+        || value === 'NaN'
+    );
+    value = bool.toString();
     return parse(value);
 };
 
 parse.xsd_decimal = function (value) {
-    let decimal = parseFloat(value);
+    const decimal = parseFloat(value);
     value = '' + decimal;
     return parse(value);
 };
 
 parse.xsd_integer = function (value) {
-    let decimal = parseInt(value);
+    const decimal = parseInt(value);
     value = '' + decimal;
     return parse(value);
 };
 
 parse.xsd_date = function (value) {
-    let date = new Date(value);
+    const date = new Date(value);
     value = date.toISOString();
     return parse(value, null, date);
 };

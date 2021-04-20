@@ -2,14 +2,23 @@ const
     _ = require('../util'),
     metamodel = require('.');
 
+/**
+ * @template {_.IRI} Key
+ * @template {metamodel.Resource} Value
+ * @extends metamodel.Container<Key,Value>
+ */
 class GraphContainer extends metamodel.Container {
 
     static validKey(key) { return _.is.string.IRI(key); }
     static validValue(value) { return value instanceof metamodel.Resource; }
     static validEntry(key, value) { return this.validKey(key) && this.validValue(value) && key === value.uid; }
 
+    /** @type {Map<Key,Value>} */
     #graph = new Map();
 
+    /**
+     * @param {Array<Value>} [graph] 
+     */
     constructor(graph) {
         super(graph);
         if (graph) {

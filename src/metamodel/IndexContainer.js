@@ -1,15 +1,23 @@
 const
     _ = require('../util'),
     metamodel = require('.');
-const { validValue } = require('./Container');
 
+/**
+ * @template {string} Key
+ * @template {metamodel.Resource|metamodel.Literal} Value
+ * @extends metamodel.Container<Key,Value>
+ */
 class IndexContainer extends metamodel.Container {
 
     static validKey(key) { return _.is.string(key); }
     static validValue(value) { return value instanceof metamodel.Resource || value instanceof metamodel.Literal; }
 
+    /** @type {Map<Key,Value>} */
     #map = new Map();
 
+    /**
+     * @param {{[key: string]: Value}} [map] 
+     */
     constructor(map) {
         super(map);
         if (map) {

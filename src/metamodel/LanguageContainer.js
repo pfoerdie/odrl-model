@@ -2,6 +2,11 @@ const
     _ = require('../util'),
     metamodel = require('.');
 
+/**
+ * @template {_.Language} Key
+ * @template {metamodel.Literal} Value
+ * @extends metamodel.IndexContainer<Key,Value>
+ */
 class LanguageContainer extends metamodel.IndexContainer {
 
     static validKey(key) { return _.is.string.Language(key); }

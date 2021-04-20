@@ -2,6 +2,9 @@ const
     _ = require('../util'),
     metamodel = require('.');
 
+/**
+ * @extends metamodel.Entity
+ */
 class Literal extends metamodel.Entity {
 
     #value = '';
@@ -96,6 +99,9 @@ class Literal extends metamodel.Entity {
         }
     }
 
+    /**
+     * @returns {{'@value': string, '@language'?: string, '@type'?: string}}
+     */
     toJSON() {
         return this.#datatype === _.RDF.langString ? {
             '@language': this.#language,
@@ -106,13 +112,16 @@ class Literal extends metamodel.Entity {
         };
     }
 
+    /**
+     * @returns {boolean|number|string}
+     */
     valueOf() {
-        // TODO maybe remove, maybe rework
         switch (this.#datatype) {
             case _.XSD.boolean:
-                return this.#value === ('' + true);
-            case _.XSD.decimal:
+                return this.#value === true.toString();
+            case _.XSD.integer:
                 return parseInt(this.#value);
+            case _.XSD.decimal:
             case _.XSD.float:
                 return parseFloat(this.#value);
             default:

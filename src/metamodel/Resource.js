@@ -2,13 +2,16 @@ const
     _ = require('../util'),
     metamodel = require('.');
 
+/**
+ * @extends metamodel.Entity
+ */
 class Resource extends metamodel.Entity {
 
     #uid = '';
     #type = null;
 
     /**
-     * @param {string | {'@id': string}} param 
+     * @param {_.IRI | {'@id': _.IRI} | {uid: _.IRI} | {id: _.IRI}} param 
      */
     constructor(param) {
         super();
@@ -26,9 +29,13 @@ class Resource extends metamodel.Entity {
 
     /** @type {string} */
     get uid() { return this.#uid; }
+
     /** @type {Function} */
     get type() { return this.#type; }
 
+    /**
+     * @returns {{'@id': _.IRI, '@type': string, [key: string]: any}}
+     */
     toJSON() {
         return Object.assign({ '@id': this.#uid, '@type': this.#type.name }, this);
     }
