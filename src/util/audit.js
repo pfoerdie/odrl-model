@@ -37,7 +37,10 @@ const audit = module.exports = function (scope, method, args) {
                 if (_.is.string(args)) {
                     rawMsg += ' ' + args;
                     if (colored) coloredMsg += ' ' + colors.yellow(args);
-                } else if (args?.[Symbol.iterator]) {
+                } else if (args instanceof Error) {
+                    rawMsg += ' ' + args.message + '\n' + args.stack;
+                    if (colored) coloredMsg += ' ' + colors.red(args.message) + '\n' + colors.grey(args.stack);
+                } else if (args?.[Symbol.iterator] && _.is.number(args?.length)) {
                     const
                         argPairs = Array.from(args).map(arg => [
                             arg?.__proto__.constructor.name ?? 'null',
@@ -54,7 +57,10 @@ const audit = module.exports = function (scope, method, args) {
                         + colors.grey(')');
                 }
             }
-        } else if (method?.[Symbol.iterator]) {
+        } else if (method instanceof Error) {
+            rawMsg += ' ' + method.message + '\n' + method.stack;
+            if (colored) coloredMsg += ' ' + colors.red(method.message) + '\n' + colors.grey(method.stack);
+        } else if (method?.[Symbol.iterator] && _.is.number(method?.length)) {
             const
                 argPairs = Array.from(method).map(arg => [
                     arg?.__proto__.constructor.name ?? 'null',
