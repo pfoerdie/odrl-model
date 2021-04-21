@@ -1,6 +1,6 @@
 const
     _ = require('.'),
-    silent = (process.env.NODE_ENV === 'production'),
+    silent = (process.env.NODE_ENV === 'production') || ('test' in global),
     colored = !silent && true,
     colors = colored ? require('colors') : null;
 
@@ -76,8 +76,6 @@ const audit = module.exports = function (scope, method, args) {
                 ).join(colors.grey(', '))
                 + colors.grey(')');
         }
-    } else {
-        return null;
     }
 
     rawMsg = `log[${logCount}]: ` + rawMsg;

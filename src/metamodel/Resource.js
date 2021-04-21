@@ -25,6 +25,7 @@ class Resource extends metamodel.Entity {
             this.#uid = uid;
         }
         this.#type = new.target;
+        _.audit(this, 'constructor', arguments);
     }
 
     /** @type {string} */

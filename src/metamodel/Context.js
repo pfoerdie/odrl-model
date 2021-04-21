@@ -28,6 +28,7 @@ class Context {
         /** @type {metamodel.Context} */
         this.root = findRoot(this);
         _.lock.all.hidden(this);
+        _.audit(this, 'constructor', arguments);
     }
 
     /**

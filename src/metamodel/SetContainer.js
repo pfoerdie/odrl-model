@@ -20,7 +20,7 @@ class SetContainer extends metamodel.Container {
      * @param {Array<Value>} [set] 
      */
     constructor(set) {
-        super();
+        super(set);
         if (set) {
             _.assert.array(set);
             for (let value of set) {
