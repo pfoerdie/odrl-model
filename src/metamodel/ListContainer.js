@@ -29,6 +29,8 @@ class ListContainer extends metamodel.Container {
     }
 
     get size() { return this.#list.length; }
+
+    /** @returns {Array<Value>} */
     toJSON() { return Array.from(this.#list); }
 
     keys() { this.#list.keys(); }

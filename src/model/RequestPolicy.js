@@ -33,6 +33,9 @@ class RequestPolicy extends model.Policy {
         _.assert.function(response.send);
         _.assert.function(next);
         const ctx = new metamodel.Context(this);
+        ctx.set(_.ODRL.target, this.target);
+        if (this.assignee) ctx.set(_.ODRL.assignee, this.assignee);
+        if (this.assigner) ctx.set(_.ODRL.assigner, this.assigner);
         return await super.evaluate(ctx, response, next);
     }
 

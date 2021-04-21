@@ -7,9 +7,7 @@ const
  */
 class Identifier extends metamodel.Resource {
 
-    /**
-     * @returns {{'@id': _.IRI}}
-     */
+    /** @returns {{'@id': _.IRI}} */
     toJSON() { return { '@id': this.uid }; }
 
 }

@@ -29,6 +29,8 @@ class IndexContainer extends metamodel.Container {
     }
 
     get size() { return this.#map.size; }
+
+    /** @returns {Object<Value>} */
     toJSON() { return Object.fromEntries(this.entries()); }
 
     keys() { return this.#map.keys(); }

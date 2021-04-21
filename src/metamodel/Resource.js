@@ -35,10 +35,25 @@ class Resource extends metamodel.Entity {
     get type() { return this.#type; }
 
     /**
-     * @returns {{'@id': _.IRI, '@type': string, [key: string]: any}}
+     * @param {metamodel.Literal} other 
+     * @returns {boolean}
+     */
+    equals(other) {
+        return super.equals(other) || other instanceof Resource
+            && this.uid === other.uid
+            && this.type === other.type;
+    }
+
+    /**
+     * @returns {{'@id': _.IRI, '@type': string, [key: string]: metamodel.Entity}}
      */
     toJSON() {
-        return Object.assign({ '@id': this.#uid, '@type': this.#type.name }, this);
+        const result = { '@id': this.uid, '@type': this.type.name };
+        for (let [key, value] of Object.entries(this)) {
+            if (value instanceof metamodel.Entity)
+                result[key] = value;
+        }
+        return result;
     }
 
 }

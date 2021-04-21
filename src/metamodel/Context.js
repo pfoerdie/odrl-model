@@ -31,20 +31,32 @@ class Context {
         _.audit(this, 'constructor', arguments);
     }
 
-    /**
-     * @param {_.IRI} key 
-     * @returns {boolean}
-     */
-    has(key) {
-        return this.#cache.has(key);
+    find(callback) {
+        // TODO maybe unnecessary
+        _.assert.function(callback);
+        if (callback(this)) return this;
+        if (this.parent) return this.parent.find(callback);
+        return null;
     }
 
     /**
      * @param {_.IRI} key 
+     * @param {boolean} [recursive] 
+     * @returns {boolean}
+     */
+    has(key, recursive) {
+        if (!_.is.string(key)) return false;
+        return this.#cache.has(key) || recursive && this.parent?.has(key, recursive) || false;
+    }
+
+    /**
+     * @param {_.IRI} key 
+     * @param {boolean} [recursive] 
      * @returns {metamodel.Entity}
      */
-    get(key) {
-        return this.#cache.get(key);
+    get(key, recursive) {
+        if (!_.is.string(key)) return false;
+        return this.#cache.get(key) || recursive && this.parent?.get(key, recursive) || null;
     }
 
     /**
@@ -57,6 +69,7 @@ class Context {
         _.assert.instance(value, metamodel.Entity);
         _.assert(!this.#cache.has(key), 'already set');
         this.#cache.set(key, value);
+        _.audit(this, 'set', arguments);
         return value;
     }
 

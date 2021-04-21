@@ -27,13 +27,17 @@ class Constraint extends metamodel.Resource {
         _.lock.all(this);
     }
 
-    async evaluate(...args) {
+    async evaluate(ctx, ...args) {
+        _.assert.instance(ctx, metamodel.Context);
+        _.assert(ctx.target === this);
+
         const
             leftOperand = await this.leftOperand.resolve(...args),
             rightOperand = this.rightOperand,
-            result = await this.operator.apply(leftOperand, rightOperand);
-        // TODO what to do with the result?
-        return result;
+            status = await this.operator.apply(leftOperand, rightOperand);
+
+        ctx.set(_.ODRL.status, status);
+        return ctx;
     }
 
 }

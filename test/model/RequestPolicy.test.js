@@ -2,7 +2,7 @@ const
     http = require('http'),
     express = require('express'),
     { Literal, Resource, Identifier } = require('../../src/metamodel'),
-    { Policy, Rule, Permission, Action, RequestPolicy, Asset, Party } = require('../../src/model'),
+    { Policy, Rule, Permission, Action, RequestPolicy, Asset, AssetCollection, Party } = require('../../src/model'),
     { prohibit, perm } = require('../../src/individuals');
 
 let nextPort = 8080;
@@ -46,15 +46,19 @@ describe('model / RequestPolicy', function () {
             const odrl_use = new Action({ uid: 'odrl:use' }, (ctx) => {
                 debugger;
             });
+            const ex_assets = new AssetCollection({
+                uid: 'ex:assets'
+            });
             const use_permission = new Permission({
                 action: odrl_use,
-                target: reqPolicy.target
+                target: ex_assets
             });
             const ex_policy = new Policy({
-                uid: 'ex:allowed',
+                uid: 'ex:policy',
                 conflict: perm,
                 permission: [use_permission]
             });
+            reqPolicy.target.partOf.add(ex_assets);
             reqPolicy.inheritFrom.add(ex_policy);
             expect(reqPolicy.inheritFrom.has(ex_policy.uid)).toBeTruthy();
         }

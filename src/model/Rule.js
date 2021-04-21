@@ -1,7 +1,9 @@
 const
     _ = require('../util'),
     metamodel = require('../metamodel'),
-    model = require('.');
+    model = require('.'),
+    TRUE = new metamodel.Literal(true),
+    FALSE = new metamodel.Literal(false);
 
 /**
  * An abstract concept that represents the common characteristics of Permissions, Prohibitions, and Duties.
@@ -25,14 +27,42 @@ class Rule extends metamodel.Resource {
         _.lock.all(this);
     }
 
-    async evaluate(...args) {
-        const results = await Promise.all(Array.from(this.constraint)
-            .map(constraint => constraint.evaluate(...args)));
-        // TODO what to do next?
-        if (!results.every(val => val)) return false;
-        const result = await this.action(...args);
-        // TODO what result is expected?
-        return result;
+    async evaluate(ctx, ...args) {
+        _.assert.instance(ctx, metamodel.Context);
+        _.assert(ctx.target === this);
+
+        if (this.target) {
+            const target = ctx.get(_.ODRL.target, true);
+            if (!target) return ctx;
+            _.assert.instance(target, model.Asset);
+            if (!(target.equals(this.target) || target.isPartOf(this.target))) return ctx;
+        }
+
+        if (this.assigner) {
+            const assigner = ctx.get(_.ODRL.assigner, true);
+            if (!assigner) return ctx;
+            _.assert.instance(assigner, model.Asset);
+            if (!(assigner.equals(this.assigner) || assigner.isPartOf(this.assigner))) return ctx;
+        }
+
+        if (this.assignee) {
+            const assignee = ctx.get(_.ODRL.assignee, true);
+            if (!assignee) return ctx;
+            _.assert.instance(assignee, model.Asset);
+            if (!(assignee.equals(this.assignee) || assignee.isPartOf(this.assignee))) return ctx;
+        }
+
+        const constraintCtxs = await Promise.all(Array.from(this.constraint)
+            .map(constraint => constraint.evaluate(new model.ConstraintContext(constraint, ctx), ...args)));
+
+        if (!constraintCtxs.every(ctx => TRUE.equals(ctx.get(_.ODRL.status)))) return ctx;
+
+        // // TODO what to do next?
+        // const result = await this.action(...args);
+        // // TODO what result is expected?
+
+        debugger;
+        return ctx;
     }
 
 }

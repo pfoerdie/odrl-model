@@ -7,7 +7,13 @@ const
  */
 module.exports = new model.ConflictTerm(
     { '@id': _.ODRL.invalid },
-    async function () {
+    /**
+     * @param {Array<model.RuleContext>} permissionCtxs 
+     * @param {Array<model.RuleContext>} prohibitionCtxs 
+     */
+    async function (permissionCtxs, prohibitionCtxs) {
+        const
+            permissions = permissionCtxs.filter(ctx => ctx.get(_.ODRL.status));
         // TODO
         _.assert(false, 'not implemented');
     }

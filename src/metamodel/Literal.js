@@ -12,16 +12,16 @@ class Literal extends metamodel.Entity {
     #datatype = _.XSD.string;
 
     /**
-     * @param {string|boolean|number|{'@value': string, '@language'?: string, '@type'?: string}} param 
+     * @param {string|boolean|number|{'@value': string, '@language'?: string, '@type'?: string}|metamodel.Literal} param 
      */
     constructor(param) {
         super();
 
         let
-            native = !(_.is.object(param) && _.is.string(param['@value'])),
-            value = native ? param : param['@value'],
-            language = native ? null : param['@language'],
-            datatype = native ? null : param['@type'];
+            native = !(_.is.object(param) && (('@value' in param) || (param instanceof Literal))),
+            value = native ? param : (param['@value'] ?? param.value),
+            language = native ? null : (param['@language'] ?? param.language),
+            datatype = native ? null : (param['@type'] ?? param.type);
 
         if (language) {
             this.datatype = _.RDF.langString;
@@ -100,16 +100,34 @@ class Literal extends metamodel.Entity {
     }
 
     /**
-     * @returns {{'@value': string, '@language'?: string, '@type'?: string}}
+     * @param {metamodel.Literal} other 
+     * @returns {boolean}
+     */
+    equals(other) {
+        return super.equals(other) || other instanceof Literal
+            && this.value === other.value
+            && this.language === other.language
+            && this.datatype === other.datatype;
+    }
+
+    /**
+     * @returns {string | {'@value': string, '@language': string} | {'@value': string, '@type': string}}
      */
     toJSON() {
-        return this.#datatype === _.RDF.langString ? {
-            '@language': this.#language,
-            '@value': this.#value
-        } : {
-            '@type': this.#datatype,
-            '@value': this.#value
-        };
+        switch (this.datatype) {
+            case _.RDF.langString:
+                return {
+                    '@language': this.language,
+                    '@value': this.value
+                };
+            case _.XSD.string:
+            // return this.value;
+            default:
+                return {
+                    '@type': this.datatype,
+                    '@value': this.value
+                };
+        }
     }
 
     /**

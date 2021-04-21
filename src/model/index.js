@@ -24,6 +24,7 @@ exports.LogicalOperator = require('./LogicalOperator');
 exports.LeftOperand = require('./LeftOperand');
 exports.ConstraintGraph = require('./ConstraintGraph');
 exports.ConstraintList = require('./ConstraintList');
+exports.ConstraintContext = require('./ConstraintContext');
 
 _.lock.all.hidden(exports);
 

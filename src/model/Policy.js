@@ -3,6 +3,30 @@ const
     metamodel = require('../metamodel'),
     model = require('.');
 
+// function filterRules(ctx, rules) {
+//     const { target, assignee, assigner } = ctx.root.target;
+//     _.assert.instance(target, model.Asset);
+//     if (assignee) _.assert.instance(assignee, model.Party);
+//     if (assigner) _.assert.instance(assigner, model.Party);
+//     return Array.from(rules).filter(function (rule) {
+//         if (rule.target) {
+//             // if (!target) return false;
+//             if (!(target.equals(rule.target) || target.isPartOf(rule.target))) return false;
+//         } else {
+//             return false;
+//         }
+//         if (rule.assignee) {
+//             if (!assignee) return false;
+//             if (!(assignee.equals(rule.assignee) || assignee.isPartOf(rule.assignee))) return false;
+//         }
+//         if (rule.assigner) {
+//             if (!assigner) return false;
+//             if (!(assigner.equals(rule.assigner) || assigner.isPartOf(rule.assigner))) return false;
+//         }
+//         return true;
+//     });
+// }
+
 /**
  * A non-empty group of Permissions and/or Prohibitions.
  */
@@ -26,27 +50,50 @@ class Policy extends metamodel.Resource {
         _.lock.all(this);
     }
 
+    /**
+     * @param {metamodel.Context} ctx 
+     * @param  {...any} args 
+     * @returns {Promise<metamodel.Context>}
+     */
     async evaluate(ctx, ...args) {
-        // TODO integrate inheritFrom, use ctx as parent
-        const [permissions, prohibitions] = await Promise.all([
+        _.assert.instance(ctx, metamodel.Context);
+        _.assert(ctx.target === this);
+
+        const [permissionCtxs, prohibitionCtxs] = await Promise.all([
             Promise.all(Array.from(this.permission)
-                .map(rule => rule.evaluate(...args))),
+                .map(rule => rule.evaluate(new model.RuleContext(rule, ctx), ...args))),
             Promise.all(Array.from(this.prohibition)
-                .map(rule => rule.evaluate(...args)))
+                .map(rule => rule.evaluate(new model.RuleContext(rule, ctx), ...args)))
         ]);
-        debugger;
+
+        const conflict = await this.conflict.apply(permissionCtxs, prohibitionCtxs);
+
+        const inheritCtxs = await Promise.all(Array.from(this.inheritFrom)
+            .map(policy => policy.evaluate(new model.PolicyContext(policy, ctx), ...args)));
+
+
+
+        // TODO integrate inheritFrom, use ctx as parent
+        // const [permissions, prohibitions] = await Promise.all([
+        //     Promise.all(filterRules(ctx, this.permission)
+        //         .map(rule => rule.evaluate(new model.RuleContext(rule, ctx), ...args))),
+        //     Promise.all(filterRules(ctx, this.prohibition)
+        //         .map(rule => rule.evaluate(new model.RuleContext(rule, ctx), ...args)))
+        // ]);
+        // debugger;
         // TODO what to do next?
-        const conflict = await this.conflict.apply(permissions, prohibitions);
-        debugger;
+        // const conflict = await this.conflict.apply(permissions, prohibitions);
+        // debugger;
         // TODO what is the conflict result and what to do with it?
-        if (conflict) return;
-        const obligation = await Promise.all(Array.from(this.obligation)
-            .map(rule => rule.evaluate(...args)));
-        debugger;
+        // if (conflict) return;
+        // const obligation = await Promise.all(Array.from(this.obligation)
+        //     .map(rule => rule.evaluate(...args)));
+        // debugger;
         // TODO which action must be performed and what result should be returned?
-        const decision = obligation.every(val => val) ? 'Permit' : 'Prohibit';
+        // const decision = obligation.every(val => val) ? 'Permit' : 'Prohibit';
+
         debugger;
-        return decision;
+        return ctx;
     }
 
 }

@@ -7,7 +7,7 @@ const
  */
 module.exports = new model.ConflictTerm(
     { '@id': _.ODRL.perm },
-    async function () {
+    async function (permissionResults, prohibitionResults) {
         // TODO
         _.assert(false, 'not implemented');
     }

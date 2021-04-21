@@ -30,6 +30,8 @@ class GraphContainer extends metamodel.Container {
     }
 
     get size() { return this.#graph.size; }
+
+    /** @returns {Array<Value>} */
     toJSON() { return Array.from(this.values()); }
 
     keys() { return this.#graph.keys(); }

@@ -15,6 +15,14 @@ class Party extends metamodel.Resource {
         _.lock.all(this);
     }
 
+    isPartOf(target) {
+        if (!(target instanceof model.PartyCollection)) return false;
+        return this.partOf.some((parent) => {
+            if (target.uid === parent.uid) return true;
+            if (parent.isPartOf(target)) return true;
+        });
+    }
+
 }
 
 module.exports = Party;

@@ -1,5 +1,5 @@
 const
-    { Literal, Resource } = require('../../src/metamodel'),
+    { Literal, Resource, Context } = require('../../src/metamodel'),
     { Constraint } = require('../../src/model'),
     { dateTime, eq } = require('../../src/individuals');
 
@@ -24,8 +24,8 @@ describe('model / Constraint', function () {
             operator: eq,
             rightOperand: await dateTime.resolve()
         });
-        const result = await c.evaluate();
-        expect(result).toBe(true);
+        const result = await c.evaluate(new Context(c));
+        expect(result).toBeInstanceOf(Context);
         debugger;
     });
 

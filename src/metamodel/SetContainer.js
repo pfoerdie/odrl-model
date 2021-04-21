@@ -30,6 +30,8 @@ class SetContainer extends metamodel.Container {
     }
 
     get size() { return this.#set.size; }
+
+    /** @returns {Array<Value>} */
     toJSON() { return Array.from(this.#set.values()); }
 
     keys() { return this.#set.values(); }

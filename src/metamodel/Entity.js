@@ -11,6 +11,9 @@ class Entity {
         _.assert(new.target !== Entity, 'abstract class');
     }
 
+    equals(other) { return this === other; }
+
+    /** @returns {null} */
     toJSON() { null; }
 
 }

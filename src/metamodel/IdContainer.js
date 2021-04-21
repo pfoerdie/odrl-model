@@ -11,9 +11,7 @@ class IdContainer extends metamodel.GraphContainer {
 
     static validValue(value) { return value instanceof metamodel.Identifier; }
 
-    /**
-     * @returns {Array<{'@id': _.IRI}>}
-     */
+    /** @returns {Array<{'@id': _.IRI}>} */
     toJSON() {
         const toJSON = metamodel.Identifier.prototype.toJSON;
         return Array.from(this.values())
