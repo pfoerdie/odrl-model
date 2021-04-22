@@ -28,6 +28,7 @@ class Constraint extends metamodel.Resource {
     }
 
     async evaluate(ctx, ...args) {
+        _.audit(this, 'evaluate', arguments);
         _.assert.instance(ctx, metamodel.Context);
         _.assert(ctx.target === this);
 

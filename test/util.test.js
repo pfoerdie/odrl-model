@@ -1,7 +1,9 @@
 const
     _ = require('../src/util');
 
-describe('util', function () {
+describe('test: util', function () {
+
+    beforeAll(() => _.audit('test: util'));
 
     test('audit', async function () {
         _.audit({ uid: 'ex:test' }, 'constructor', new Error('bad error'));

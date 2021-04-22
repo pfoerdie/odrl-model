@@ -1,9 +1,12 @@
 const
+    _ = require('../../src/util'),
     { Literal, Resource } = require('../../src/metamodel'),
     { Policy } = require('../../src/model'),
     { prohibit } = require('../../src/individuals');
 
-describe('model / Policy', function () {
+describe('test: model.Policy', function () {
+
+    beforeAll(() => _.audit('test: model.Policy'));
 
     test('should instanciate', function () {
         const policy = new Policy({

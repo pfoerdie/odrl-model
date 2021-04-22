@@ -1,7 +1,10 @@
 const
+    _ = require('../../src/util'),
     { Literal, Resource, SetContainer } = require('../../src/metamodel');
 
-describe('metamodel / SetContainer', function () {
+describe('test: metamodel.SetContainer', function () {
+
+    beforeAll(() => _.audit('test: metamodel.SetContainer'));
 
     const
         ex_hello = new Resource('ex:hello'),

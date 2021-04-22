@@ -1,9 +1,12 @@
 const
+    _ = require('../../src/util'),
     { Literal, Resource, Context } = require('../../src/metamodel'),
     { Constraint } = require('../../src/model'),
     { dateTime, eq } = require('../../src/individuals');
 
-describe('model / Constraint', function () {
+describe('test: model.Constraint', function () {
+
+    beforeAll(() => _.audit('test: model.Constraint'));
 
     test('construct a Constraint', function () {
         const c = new Constraint({

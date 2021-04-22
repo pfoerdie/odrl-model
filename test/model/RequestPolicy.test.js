@@ -1,6 +1,7 @@
 const
     http = require('http'),
     express = require('express'),
+    _ = require('../../src/util'),
     { Literal, Resource, Identifier } = require('../../src/metamodel'),
     { Policy, Rule, Permission, Action, RequestPolicy, Asset, AssetCollection, Party } = require('../../src/model'),
     { prohibit, perm } = require('../../src/individuals');
@@ -31,7 +32,9 @@ function testRequest(callback, options = {}) {
     return waiter;
 }
 
-describe('model / RequestPolicy', function () {
+describe('test: model.RequestPolicy', function () {
+
+    beforeAll(() => _.audit('test: model.RequestPolicy'));
 
     test('should instanciate', () => testRequest(
         async (request, response, next) => {

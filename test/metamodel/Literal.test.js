@@ -1,7 +1,10 @@
 const
+    _ = require('../../src/util'),
     { Literal, Resource } = require('../../src/metamodel');
 
-describe('metamodel / Literal', function () {
+describe('test: metamodel.Literal', function () {
+
+    beforeAll(() => _.audit('test: metamodel.Literal'));
 
     test('should instanciate with a string', function () {
         const literal = new Literal('Hello World!');

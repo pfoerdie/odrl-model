@@ -28,6 +28,7 @@ class Action extends metamodel.Resource {
     }
 
     async execute(ctx, ...args) {
+        _.audit(this, 'execute', arguments);
         await this.#executor.apply(ctx, args);
         return model.TRUE;
     }

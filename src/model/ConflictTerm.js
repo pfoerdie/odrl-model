@@ -20,6 +20,7 @@ class ConflictTerm extends metamodel.Resource {
     }
 
     async apply(permissionCtxs, prohibitionCtxs) {
+        _.audit(this, 'apply', arguments);
         _.assert.array(permissionCtxs, val => val instanceof model.RuleContext);
         _.assert.array(prohibitionCtxs, val => val instanceof model.RuleContext);
         permissionCtxs = permissionCtxs.filter(ctx => model.TRUE.equals(ctx.get(_.ODRL.status)));

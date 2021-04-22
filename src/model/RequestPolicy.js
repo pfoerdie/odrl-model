@@ -29,6 +29,7 @@ class RequestPolicy extends model.Policy {
     }
 
     async evaluate(response, next) {
+        _.audit(this, 'evaluate', arguments);
         _.assert.object(response);
         _.assert.function(response.send);
         _.assert.function(next);

@@ -19,6 +19,7 @@ class LogicalConstraint extends metamodel.Resource {
     }
 
     async evaluate(...args) {
+        _.audit(this, 'evaluate', arguments);
         const operandInvoker = Array.from(this.operand)
             .map(constraint => () => constraint.evaluate(...args));
         return await this.operator.apply(...operandInvoker);

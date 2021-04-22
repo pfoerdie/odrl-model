@@ -19,6 +19,7 @@ class Operator extends metamodel.Resource {
     }
 
     async apply(leftOperand, rightOperand) {
+        _.audit(this, 'apply', arguments);
         _.assert.object(leftOperand);
         _.assert.object(rightOperand);
         const result = await this.#operator.call(null, leftOperand, rightOperand);

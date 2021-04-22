@@ -24,7 +24,6 @@ class Container extends metamodel.Entity {
         _.assert(new.target !== Container, 'abstract class');
         super();
         this.#type = new.target;
-        _.audit(this, 'constructor', arguments);
     }
 
     /** @type {number} */

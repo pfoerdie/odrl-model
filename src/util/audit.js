@@ -1,6 +1,7 @@
 const
     _ = require('.'),
     silent = (process.env.NODE_ENV === 'production') || ('test' in global),
+    // silent = false || process.env.NODE_ENV === 'production',
     colored = !silent && true,
     colors = colored ? require('colors') : null;
 
@@ -78,11 +79,13 @@ const audit = module.exports = function (scope, method, args) {
         }
     }
 
-    rawMsg = `log[${logCount}]: ` + rawMsg;
-    if (colored) coloredMsg = colors.grey(`log[${logCount}]: `) + coloredMsg;
+    rawMsg = 'log[' + logCount + ']: ' + rawMsg;
+    if (colored) coloredMsg = colors.grey('log[' + logCount + ']: ') + coloredMsg;
 
     logCount++;
-    if (!silent) console.log(colored ? coloredMsg : rawMsg);
+    // if (!silent) console.log(colored ? coloredMsg : rawMsg);
+    if (!silent) process.stdout.write((colored ? coloredMsg : rawMsg) + '\n');
+
     // TODO do something with rawMsg?
     return rawMsg;
 };

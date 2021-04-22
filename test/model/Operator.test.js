@@ -1,9 +1,12 @@
 const
+    _ = require('../../src/util'),
     { Literal, Resource } = require('../../src/metamodel'),
     { Operator } = require('../../src/model'),
     { dateTime, eq } = require('../../src/individuals');
 
-describe('model / Operator', function () {
+describe('test: model.Operator', function () {
+
+    beforeAll(() => _.audit('test: model.Operator'));
 
     test('odrl.eq', async function () {
         expect(eq).toBeInstanceOf(Operator);

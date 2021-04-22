@@ -19,6 +19,7 @@ class LogicalOperator extends metamodel.Resource {
     }
 
     async apply(...operandInvoker) {
+        _.audit(this, 'apply', arguments);
         _.assert.array(operandInvoker, _.is.function);
         const result = await this.#operator.apply(null, operandInvoker);
         _.assert.boolean(result);

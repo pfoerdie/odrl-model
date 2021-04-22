@@ -1,7 +1,10 @@
 const
+    _ = require('../../src/util'),
     { Literal, Resource } = require('../../src/metamodel');
 
-describe('metamodel / Resource', function () {
+describe('test: metamodel.Resource', function () {
+
+    beforeAll(() => _.audit('test: metamodel.Resource'));
 
     test('should instanciate with an IRI', function () {
         const resource = new Resource('ex:hello');
