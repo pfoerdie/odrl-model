@@ -19,13 +19,16 @@ class ConflictTerm extends metamodel.Resource {
         _.lock.all(this);
     }
 
-    async apply(permissions, prohibitions) { // TODO what kind of arguments?
-        // _.assert.instance(permissions, model.PermissionContainer);
-        _.assert.object(permissions);
-        _.assert.object(prohibitions);
+    async apply(permissionCtxs, prohibitionCtxs) {
+        _.assert.array(permissionCtxs, val => val instanceof model.RuleContext);
+        _.assert.array(prohibitionCtxs, val => val instanceof model.RuleContext);
+        permissionCtxs = permissionCtxs.filter(ctx => model.TRUE.equals(ctx.get(_.ODRL.status)));
+        prohibitionCtxs = prohibitionCtxs.filter(ctx => model.TRUE.equals(ctx.get(_.ODRL.status)));
         const result = await this.#operator.call(null, permissions, prohibitions);
-        // TODO what kind od result?
-        return result;
+        if (_.is.boolean(result))
+            return result && model.TRUE || model.FALSE;
+        else
+            return null;
     }
 
 }

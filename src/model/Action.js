@@ -27,8 +27,9 @@ class Action extends metamodel.Resource {
         _.lock.all(this);
     }
 
-    async execute(...args) {
-        await this.#executor.apply(null, args);
+    async execute(ctx, ...args) {
+        await this.#executor.apply(ctx, args);
+        return model.TRUE;
     }
 
 }

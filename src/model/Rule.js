@@ -1,9 +1,7 @@
 const
     _ = require('../util'),
     metamodel = require('../metamodel'),
-    model = require('.'),
-    TRUE = new metamodel.Literal(true),
-    FALSE = new metamodel.Literal(false);
+    model = require('.');
 
 /**
  * An abstract concept that represents the common characteristics of Permissions, Prohibitions, and Duties.
@@ -55,13 +53,13 @@ class Rule extends metamodel.Resource {
         const constraintCtxs = await Promise.all(Array.from(this.constraint)
             .map(constraint => constraint.evaluate(new model.ConstraintContext(constraint, ctx), ...args)));
 
-        if (!constraintCtxs.every(ctx => TRUE.equals(ctx.get(_.ODRL.status)))) return ctx;
+        if (!constraintCtxs.every(ctx => model.TRUE.equals(ctx.get(_.ODRL.status)))) return ctx;
 
-        // // TODO what to do next?
-        // const result = await this.action(...args);
-        // // TODO what result is expected?
+        const
+            actionCtx = new model.ActionContext(this.action, ctx),
+            status = await this.action.execute(actionCtx, ...args);
 
-        debugger;
+        ctx.set(_.ODRL.status, status);
         return ctx;
     }
 

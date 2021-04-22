@@ -22,7 +22,8 @@ class Operator extends metamodel.Resource {
         _.assert.object(leftOperand);
         _.assert.object(rightOperand);
         const result = await this.#operator.call(null, leftOperand, rightOperand);
-        return new metamodel.Literal(!!result);
+        // return new metamodel.Literal(!!result);
+        return result ? model.TRUE : model.FALSE;
     }
 
 }

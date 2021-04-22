@@ -66,7 +66,16 @@ class Policy extends metamodel.Resource {
                 .map(rule => rule.evaluate(new model.RuleContext(rule, ctx), ...args)))
         ]);
 
-        const conflict = await this.conflict.apply(permissionCtxs, prohibitionCtxs);
+        // NOTE The question is, what do I need here? 
+        //      Then settle on arguments and returns. 
+        //      And find a general pattern for the entity methods!
+
+        const conflict = await this.conflict.apply(
+            permissionCtxs.filter(ctx => model.TRUE.equals(ctx.get(_.ODRL.status))),
+            prohibitionCtxs.filter(ctx => model.TRUE.equals(ctx.get(_.ODRL.status)))
+        );
+        if (!conflict) return null;
+        ctx.set(_.ODRL.conflict, conflict);
 
         const inheritCtxs = await Promise.all(Array.from(this.inheritFrom)
             .map(policy => policy.evaluate(new model.PolicyContext(policy, ctx), ...args)));

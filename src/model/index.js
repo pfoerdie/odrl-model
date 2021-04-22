@@ -1,4 +1,9 @@
-const _ = require('../util');
+const
+    _ = require('../util'),
+    metamodel = require('../metamodel');
+
+exports.TRUE = new metamodel.Literal(true);
+exports.FALSE = new metamodel.Literal(false);
 
 // Resource Concepts (hidden)
 exports.AssetCollectionGraph = require('./AssetCollectionGraph');
