@@ -22,8 +22,8 @@ __Operands:__ `odrl:or`, `odrl:xone`, `odrl:and`, `odrl:andSequence`
 
 ## `odrl:Constraint`
 
-__Operators:__ `odrl:eq`, `odrl:gt`, `odrl:gteq`, `odrl:lt`, `odrl:lteq`, `odrl:neq`, `odrl:isA`, `odrl:hasPart`, `odrl:isPartOf`, `odrl:isAllOf`, `odrl:isAnyOf`, `odrl:isNoneOf`
+__Operators:__ __`odrl:eq`__, __`odrl:gt`__, __`odrl:gteq`__, __`odrl:lt`__, __`odrl:lteq`__, __`odrl:neq`__, `odrl:isA`, `odrl:hasPart`, `odrl:isPartOf`, `odrl:isAllOf`, `odrl:isAnyOf`, `odrl:isNoneOf`
 
 ## `odrl:LeftOperand`
 
-__Instances:__ `odrl:absolutePosition`, `odrl:absoluteSpatialPosition`, `odrl:absoluteTemporalPosition`, `odrl:absoluteSize`, `odrl:count`, `odrl:dateTime`, `odrl:delayPeriod`, `odrl:deliveryChannel`, `odrl:elapsedTime`, `odrl:event`, `odrl:fileFormat`, `odrl:industry`, `odrl:language`, `odrl:media`, `odrl:meteredTime`, `odrl:payAmount`, `odrl:percentage`, `odrl:product`, `odrl:purpose`, `odrl:recipient`, `odrl:relativePosition`, `odrl:relativeSpatialPosition`, `odrl:relativeTemporalPosition`, `odrl:relativeSize`, `odrl:resolution`, `odrl:spatial`, `odrl:spatialCoordinates`, `odrl:systemDevice`, `odrl:timeInterval`, `odrl:unitOfCount`, `odrl:version`, `odrl:virtualLocation`
+__Instances:__ `odrl:absolutePosition`, `odrl:absoluteSpatialPosition`, `odrl:absoluteTemporalPosition`, `odrl:absoluteSize`, `odrl:count`, __`odrl:dateTime`__, `odrl:delayPeriod`, `odrl:deliveryChannel`, `odrl:elapsedTime`, `odrl:event`, `odrl:fileFormat`, `odrl:industry`, `odrl:language`, `odrl:media`, `odrl:meteredTime`, `odrl:payAmount`, `odrl:percentage`, `odrl:product`, `odrl:purpose`, `odrl:recipient`, `odrl:relativePosition`, `odrl:relativeSpatialPosition`, `odrl:relativeTemporalPosition`, `odrl:relativeSize`, `odrl:resolution`, `odrl:spatial`, `odrl:spatialCoordinates`, `odrl:systemDevice`, `odrl:timeInterval`, `odrl:unitOfCount`, `odrl:version`, `odrl:virtualLocation`
