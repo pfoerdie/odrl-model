@@ -7,6 +7,12 @@ const
  */
 class Identifier extends metamodel.Resource {
 
+    /**
+     * @param {metamodel.Literal} other 
+     * @returns {boolean}
+     */
+    equals(other) { return other instanceof Resource && this.uid === other.uid; }
+
     /** @returns {{'@id': _.IRI}} */
     toJSON() { return { '@id': this.uid }; }
 

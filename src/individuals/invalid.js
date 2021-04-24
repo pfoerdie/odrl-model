@@ -8,13 +8,16 @@ const
 module.exports = new model.ConflictTerm(
     { '@id': _.ODRL.invalid },
     /**
-     * @param {Array<model.RuleContext>} permissionCtxs 
-     * @param {Array<model.RuleContext>} prohibitionCtxs 
+     * @param {model.Action} permission 
+     * @param {model.Action} prohibition 
+     * @returns {boolean} conflicting
      */
-    async function (permissionCtxs, prohibitionCtxs) {
-        const
-            permissions = permissionCtxs.filter(ctx => ctx.get(_.ODRL.status));
-        // TODO
-        _.assert(false, 'not implemented');
+    function conflicting(permission, prohibition) {
+        _.assert(!permission.equals(prohibition));
+        if (permission.includedIn) conflicting(permission.includedIn, prohibition);
+        for (let implied of permission.implies) {
+            conflicting(implied, prohibition);
+        }
+        return false;
     }
 );

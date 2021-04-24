@@ -7,8 +7,18 @@ const
  */
 module.exports = new model.ConflictTerm(
     { '@id': _.ODRL.prohibit },
-    async function () {
-        // TODO
-        _.assert(false, 'not implemented');
+    /**
+     * @param {model.Action} permission 
+     * @param {model.Action} prohibition 
+     * @returns {boolean} conflicting
+     */
+    function conflicting(permission, prohibition) {
+        if (permission.equals(prohibition)) return true;
+        if (permission.includedIn && conflicting(permission.includedIn, prohibition)) return true;
+        for (let implied of permission.implies) {
+            if (conflicting(implied, prohibition))
+                return true;
+        }
+        return false;
     }
 );

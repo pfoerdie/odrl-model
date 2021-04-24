@@ -49,6 +49,7 @@ class Context {
     }
 
     /**
+     * IDEA differentiate recursive methods, e.g. find
      * @param {_.IRI} key 
      * @param {boolean} [recursive] 
      * @returns {metamodel.Entity}
@@ -66,12 +67,9 @@ class Context {
     set(key, value) {
         _.assert.string(key, _.pattern.IRI);
         _.assert.instance(value, metamodel.Entity);
-        // const current = this.#cache.get(key);
-        // if (current) {
-        //     _.assert(current === value, 'already set');
-        //     return value;
-        // }
-        _.assert(!this.#cache.has(key), 'already set');
+        const current = this.#cache.get(key);
+        _.assert(!current || current.equals(value), 'already set');
+        // _.assert(!this.#cache.has(key), 'already set');
         this.#cache.set(key, value);
         _.audit(this, 'set', arguments);
         return value;

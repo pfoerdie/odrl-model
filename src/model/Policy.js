@@ -60,23 +60,20 @@ class Policy extends metamodel.Resource {
         _.assert.instance(ctx, metamodel.Context);
         _.assert(ctx.target === this);
 
-        const [permissionCtxs, prohibitionCtxs] = await Promise.all([
-            Promise.all(Array.from(this.permission)
-                .map(rule => rule.evaluate(new model.RuleContext(rule, ctx), ...args))),
-            Promise.all(Array.from(this.prohibition)
-                .map(rule => rule.evaluate(new model.RuleContext(rule, ctx), ...args)))
-        ]);
+        const
+            [permissionCtxs, prohibitionCtxs] = await Promise.all([
+                Promise.all(Array.from(this.permission)
+                    .map(rule => rule.evaluate(new model.RuleContext(rule, ctx), ...args))),
+                Promise.all(Array.from(this.prohibition)
+                    .map(rule => rule.evaluate(new model.RuleContext(rule, ctx), ...args)))
+            ]),
+            permissions = new model.ActionGraph(await this.conflict.apply(
+                permissionCtxs.map(ctx => ctx.get(_.ODRL.action)).filter(val => val),
+                prohibitionCtxs.map(ctx => ctx.get(_.ODRL.action)).filter(val => val)
+            ));
 
-        // NOTE The question is, what do I need here? 
-        //      Then settle on arguments and returns. 
-        //      And find a general pattern for the entity methods!
-
-        const conflict = await this.conflict.apply(
-            permissionCtxs.filter(ctx => model.TRUE.equals(ctx.get(_.ODRL.status))),
-            prohibitionCtxs.filter(ctx => model.TRUE.equals(ctx.get(_.ODRL.status)))
-        );
-        if (!conflict) return null;
-        ctx.set(_.ODRL.conflict, conflict);
+        ctx.set(_.ODRL.action, permissions);
+        if (!permissions.size) return ctx;
 
         const inheritCtxs = await Promise.all(Array.from(this.inheritFrom)
             .map(policy => policy.evaluate(new model.PolicyContext(policy, ctx), ...args)));

@@ -56,11 +56,7 @@ class Rule extends metamodel.Resource {
 
         if (!constraintCtxs.every(ctx => model.TRUE.equals(ctx.get(_.ODRL.status)))) return ctx;
 
-        const
-            actionCtx = new model.ActionContext(this.action, ctx),
-            status = await this.action.execute(actionCtx, ...args);
-
-        ctx.set(_.ODRL.status, status);
+        ctx.set(_.ODRL.action, this.action);
         return ctx;
     }
 

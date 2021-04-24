@@ -19,17 +19,22 @@ class ConflictTerm extends metamodel.Resource {
         _.lock.all(this);
     }
 
-    async apply(permissionCtxs, prohibitionCtxs) {
+    async apply(permissions, prohibitions) {
         _.audit(this, 'apply', arguments);
-        _.assert.array(permissionCtxs, val => val instanceof model.RuleContext);
-        _.assert.array(prohibitionCtxs, val => val instanceof model.RuleContext);
-        permissionCtxs = permissionCtxs.filter(ctx => model.TRUE.equals(ctx.get(_.ODRL.status)));
-        prohibitionCtxs = prohibitionCtxs.filter(ctx => model.TRUE.equals(ctx.get(_.ODRL.status)));
-        const result = await this.#operator.call(null, permissions, prohibitions);
-        if (_.is.boolean(result))
-            return result && model.TRUE || model.FALSE;
-        else
-            return null;
+        _.assert.array(permissions, val => val instanceof model.Action);
+        _.assert.array(prohibitions, val => val instanceof model.Action);
+        const result = [], operator = this.#operator;
+        for (let perm of permissions) {
+            for (let prohibit of prohibitions) {
+                try {
+                    const conflicting = await operator.call(null, perm, prohibit);
+                    if (!conflicting) result.push(perm);
+                } catch (err) {
+                    return [];
+                }
+            }
+        }
+        return result;
     }
 
 }
