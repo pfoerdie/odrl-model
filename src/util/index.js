@@ -15,13 +15,14 @@ _.ODRL = require('./ODRL.json');
 /** @typedef {string} IRI */
 /** @typedef {string} Language */
 
+_.is = require('./is');
+_.create = require('./create');
+_.assert = require('./assert');
+// Object.assign(_, require('@pfoerdie/utility'));
 _.parse = require('./parse');
 _.pattern = require('./pattern');
-_.is = require('./is');
 _.validate = require('./validate');
-_.assert = require('./assert');
 _.audit = require('./audit');
-_.create = require('./create');
 _.lock = require('./lock');
 
 _.lock.deep.hidden(exports);
