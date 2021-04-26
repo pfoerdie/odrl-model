@@ -2,7 +2,7 @@ const
     _ = require('../util'),
     url = require('url'),
     metamodel = require('../metamodel'),
-    model = require('.'),
+    model = require('../model'),
     individuals = require('../individuals');
 
 /**

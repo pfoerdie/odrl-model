@@ -22,4 +22,8 @@ exports.prohibit = require('./prohibit');
 exports.perm = require('./perm');
 exports.invalid = require('./invalid');
 
+// Actions
+exports.use = require('./use');
+exports.transfer = require('./transfer');
+
 _.lock.all(exports);

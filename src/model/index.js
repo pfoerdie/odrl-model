@@ -41,7 +41,6 @@ exports.PartyCollection = require('./PartyCollection');
 
 // Policy Concepts
 exports.Policy = require('./Policy');
-exports.RequestPolicy = require('./RequestPolicy');
 exports.Rule = require('./Rule');
 exports.Permission = require('./Permission');
 exports.Prohibition = require('./Prohibition');

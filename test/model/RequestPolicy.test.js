@@ -3,7 +3,8 @@ const
     express = require('express'),
     _ = require('../../src/util'),
     { Literal, Resource, Identifier } = require('../../src/metamodel'),
-    { Policy, Rule, Permission, Action, RequestPolicy, Asset, AssetCollection, Party } = require('../../src/model'),
+    { Policy, Rule, Permission, Action, Asset, AssetCollection, Party } = require('../../src/model'),
+    { RequestPolicy } = require('../../src/extension'),
     { prohibit, perm } = require('../../src/individuals');
 
 let nextPort = 8080;
