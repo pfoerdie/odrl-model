@@ -50,7 +50,7 @@ parse.xsd_date = function (value) {
 };
 
 parse.xsd_language = function (value) {
-    _.assert.string(value, _.pattern.Language);
+    _.assert.string(value, _.pattern.LanguageTag);
     return parse(value);
 };
 

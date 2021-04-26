@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/index.js",
   "dependencies": {
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "@pfoerdie/utility": "git+https://github.com/Pfoerdie/utility.git"
   },
   "devDependencies": {
     "jest": "^26.6.3",

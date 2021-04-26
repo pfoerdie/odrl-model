@@ -81,7 +81,7 @@ class Literal extends metamodel.Entity {
     set language(language) {
         if (Object.isFrozen(this)) return;
         _.assert.equal(this.#datatype, _.RDF.langString);
-        _.assert.string(language, _.pattern.Language);
+        _.assert.string(language, _.pattern.LanguageTag);
         this.#language = language;
     }
 

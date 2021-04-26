@@ -1,5 +1,6 @@
 const
     _ = exports,
+    util = require('@pfoerdie/utility'),
     uuid = require('uuid');
 
 _.generateUID = function () {
@@ -15,14 +16,13 @@ _.ODRL = require('./ODRL.json');
 /** @typedef {string} IRI */
 /** @typedef {string} Language */
 
-_.is = require('./is');
-_.create = require('./create');
-_.assert = require('./assert');
-// Object.assign(_, require('@pfoerdie/utility'));
+_.is = util.is;
+_.create = util.create;
+_.assert = util.assert;
+_.audit = util.audit;
+_.pattern = util.pattern;
+_.lock = util.prop.lock;
 _.parse = require('./parse');
-_.pattern = require('./pattern');
 _.validate = require('./validate');
-_.audit = require('./audit');
-_.lock = require('./lock');
 
 _.lock.deep.hidden(exports);
