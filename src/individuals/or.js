@@ -8,7 +8,7 @@ const
 module.exports = new model.LogicalOperator(
     { '@id': _.ODRL.or },
     async function (...callbacks) {
-        const results = await Promise.all(callbacks.map(callback => callback()));
+        const results = await Promise.all(callbacks.map(async callback => callback()));
         return results.some(val => val);
     }
 );

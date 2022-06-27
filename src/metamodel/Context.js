@@ -55,7 +55,7 @@ class Context {
      * @returns {metamodel.Entity}
      */
     get(key, recursive) {
-        if (!_.is.string(key)) return false;
+        if (!_.is.string(key)) return null;
         return this.#cache.get(key) || recursive && this.parent?.get(key, recursive) || null;
     }
 
