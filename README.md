@@ -1,4 +1,4 @@
-# odrl-model
+# @pfoerdie/odrl-model
 
 ## `odrl:Policy`
 
